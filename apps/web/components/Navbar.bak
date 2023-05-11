@@ -1,0 +1,95 @@
+export default function Navbar({ open, toggleDrawer }) {
+  return (
+    <div className="flex flex-col  items-center h-screen w-screen mt-10">
+      <h1 className="text-3xl text-lime-800 mb-12">Climatix App</h1>
+      <div className="flex justify-between w-9/12">
+        <form className="flex shrink flex-col border-solid border-2 border-cyan-700 p-9 rounded-md">
+          <h2>Add Activity</h2>
+
+          <TextField
+            id="amount"
+            label="Amount"
+            variant="outlined"
+            required
+            className="mt-5"
+            inputRef={amountInput}
+            type="number"
+            onChange={(e) => {
+              setAmountInputError(false);
+            }}
+            error={Boolean(amountInputError)}
+            helperText={amountInputError ? amountInputError : " "}
+          />
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Select date for activity"
+              onChange={(newValue) => {
+                setDateInput(newValue);
+                setDateInputError(false);
+              }}
+              disableFuture
+              defaultValue={dayjs()}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  error={Boolean(dateInputError)}
+                  helperText={dateInputError ? dateInputError : " "}
+                />
+              )}
+            />
+          </LocalizationProvider>
+          <Autocomplete
+            id="activityType"
+            disablePortal
+            options={activityOptions}
+            value={typeInput}
+            className="mt-5"
+            onInputChange={(e, newInputValue) => {
+              setTypeInput(newInputValue);
+              setTypeInputError(false);
+            }}
+            sx={{ width: 300 }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Activity type"
+                error={Boolean(typeInputError)}
+                helperText={typeInputError ? typeInputError : " "}
+              />
+            )}
+          />
+          <Button variant="outlined" onClick={submitActivity} className="mt-5">
+            Submit
+          </Button>
+        </form>
+        <div className="h-full flex flex-col justify-between shrink">
+          <div className="flex flex-col w-full">
+            <h3 className="font-semibold mb-5">
+              Add your activity on the left to calculate and save your incured
+              emissions.
+            </h3>
+            <ol className="list-decimal">
+              <li>Enter the amount incured</li>
+              <li>Enter the date of the emission</li>
+              <li>Enter the activity type</li>
+              <li>Submit your activity</li>
+            </ol>
+            {success ? (
+              <p className="text-lime-500">
+                Successfuly added activity with uuid: <br></br> {lastUuid}
+              </p>
+            ) : null}
+            {error ? <p className="text-red-500 text-2xl">{error}</p> : null}
+          </div>
+          <Link href="/activities" passHref>
+            <a className="underline">
+              Go to your activities history
+              <ChevronRight />
+            </a>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
