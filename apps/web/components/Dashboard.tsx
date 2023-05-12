@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import ChevronLeft from "@mui/icons-material/ChevronLeft";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { IconButton, Divider } from "@mui/material";
 import BarList from "./BarList";
 import MuiDrawer from "@mui/material/Drawer";
@@ -134,8 +134,8 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
       </AppBar>
       <Drawer open={open} variant="permanent">
         <DrawerHeader>
-          <IconButton onClick={toggleDrawer}>
-            <ChevronLeft />
+          <IconButton onClick={toggleDrawer} aria-label="close drawer">
+            <ChevronLeftIcon />
           </IconButton>
         </DrawerHeader>
         <Divider />
