@@ -11,13 +11,10 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open }) => ({
+})(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
@@ -33,7 +30,7 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const openedMixin = (theme: Theme): CSSObject => ({
+const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
@@ -42,7 +39,7 @@ const openedMixin = (theme: Theme): CSSObject => ({
   overflowX: "hidden",
 });
 
-const closedMixin = (theme: Theme): CSSObject => ({
+const closedMixin = (theme) => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -79,7 +76,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function Dashboard({ children }: { children: React.ReactNode }) {
+export default function Dashboard({ children }) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [currPage, setCurrPage] = useState("");

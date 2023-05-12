@@ -16,13 +16,16 @@
     "@mui/material": "^5.8.6",
     "@mui/system": "^5.8.0",
     "@mui/x-date-pickers": "^6.3.1",
+    "@types/babel__core": "^7.20.0",
     "dayjs": "^1.11.7",
-    "next": "12.3.1",
+    "next": "^13.4.2",
+    "next-transpile-modules": "^10.0.0",
     "react": "^18.0.0",
     "react-dom": "18.2.0",
     "recharts": "^2.6.2",
+    "turbo": "^1.9.4",
     "ui": "*",
-    "webpack": "^5.0.0"
+    "webpack": "^5.82.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

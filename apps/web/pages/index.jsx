@@ -6,47 +6,47 @@ import { TextField, Button, Autocomplete } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 
-const testData = [
-  { amount: 10, activityDate: "2023-05-11", activityType: "gasoline" },
-  { amount: 45, activityDate: "2023-05-12", activityType: "lng" },
-  { amount: 23, activityDate: "2023-05-13", activityType: "lng" },
-  { amount: 97, activityDate: "2023-05-14", activityType: "lng" },
-  { amount: 57, activityDate: "2023-05-15", activityType: "lng" },
-  { amount: 81, activityDate: "2023-05-16", activityType: "lng" },
-  { amount: 32, activityDate: "2023-05-17", activityType: "lng" },
-  { amount: 66, activityDate: "2023-05-18", activityType: "lng" },
-  { amount: 88, activityDate: "2023-05-19", activityType: "lng" },
-  { amount: 5, activityDate: "2023-05-20", activityType: "lng" },
-  { amount: 76, activityDate: "2023-05-21", activityType: "gasoline" },
-  { amount: 42, activityDate: "2023-05-22", activityType: "lng" },
-  { amount: 17, activityDate: "2023-05-23", activityType: "gasoline" },
-  { amount: 61, activityDate: "2023-05-24", activityType: "lng" },
-  { amount: 89, activityDate: "2023-05-25", activityType: "lng" },
-  { amount: 49, activityDate: "2023-05-26", activityType: "lng" },
-  { amount: 73, activityDate: "2023-05-27", activityType: "lng" },
-  { amount: 28, activityDate: "2023-05-28", activityType: "lng" },
-  { amount: 94, activityDate: "2023-05-29", activityType: "lng" },
-  { amount: 12, activityDate: "2023-05-30", activityType: "lng" },
-];
+// const testData = [
+//   { amount: 10, activityDate: "2023-05-11", activityType: "gasoline" },
+//   { amount: 45, activityDate: "2023-05-12", activityType: "lng" },
+//   { amount: 23, activityDate: "2023-05-13", activityType: "lng" },
+//   { amount: 97, activityDate: "2023-05-14", activityType: "lng" },
+//   { amount: 57, activityDate: "2023-05-15", activityType: "lng" },
+//   { amount: 81, activityDate: "2023-05-16", activityType: "lng" },
+//   { amount: 32, activityDate: "2023-05-17", activityType: "lng" },
+//   { amount: 66, activityDate: "2023-05-18", activityType: "lng" },
+//   { amount: 88, activityDate: "2023-05-19", activityType: "lng" },
+//   { amount: 5, activityDate: "2023-05-20", activityType: "lng" },
+//   { amount: 76, activityDate: "2023-05-21", activityType: "gasoline" },
+//   { amount: 42, activityDate: "2023-05-22", activityType: "lng" },
+//   { amount: 17, activityDate: "2023-05-23", activityType: "gasoline" },
+//   { amount: 61, activityDate: "2023-05-24", activityType: "lng" },
+//   { amount: 89, activityDate: "2023-05-25", activityType: "lng" },
+//   { amount: 49, activityDate: "2023-05-26", activityType: "lng" },
+//   { amount: 73, activityDate: "2023-05-27", activityType: "lng" },
+//   { amount: 28, activityDate: "2023-05-28", activityType: "lng" },
+//   { amount: 94, activityDate: "2023-05-29", activityType: "lng" },
+//   { amount: 12, activityDate: "2023-05-30", activityType: "lng" },
+// ];
 
 //TODO: Add no history, no emissions on tables and charts
 //TODO: Add server errors on other screens
 //TODO: Fix logo font
-function loadTestData() {
-  testData.forEach((element) => {
-    fetch("http://localhost:9080/climatix/activities", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        amount: parseInt(element.amount),
-        activityDate: element.activityDate,
-        activityType: element.activityType,
-        emissions: { CO2: 0, CH4: 0, N2O: 0 },
-      }),
-    });
-  });
-}
-loadTestData();
+// function loadTestData() {
+//   testData.forEach((element) => {
+//     fetch("http://localhost:9080/climatix/activities", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({
+//         amount: parseInt(element.amount),
+//         activityDate: element.activityDate,
+//         activityType: element.activityType,
+//         emissions: { CO2: 0, CH4: 0, N2O: 0 },
+//       }),
+//     });
+//   });
+// }
+// loadTestData();
 export default function Web() {
   const [serverInfo, setServerInfo] = useState({});
   const [dateInput, setDateInput] = useState(dayjs());
