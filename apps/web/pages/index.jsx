@@ -151,7 +151,7 @@ export default function Web() {
       <Grid container spacing={3} className="mt-14">
         <Grid item xs={3}>
           <Paper className="flex flex-col  items-center rounded-md">
-            <form className="flex shrink flex-col border-solid border-2 border-cyan-700 p-9 rounded-md px-12 max-w-sm">
+            <form className="flex flex-col border-solid border-2 border-cyan-700 p-9 rounded-md px-12 max-w-sm">
               <h2>Add Activity</h2>
 
               <TextField

@@ -73,84 +73,88 @@ export default function Chart() {
             >
               Emissions
             </Typography>
-            <ResponsiveContainer>
-              <LineChart
-                data={chartData}
-                margin={{
-                  top: 16,
-                  right: 16,
-                  bottom: 0,
-                  left: 24,
-                }}
-              >
-                <XAxis
-                  dataKey="name"
-                  stroke={theme.palette.text.secondary}
-                  style={theme.typography.body2}
-                />
-                <YAxis
-                  yAxisId="left"
-                  stroke={theme.palette.text.secondary}
-                  tickFormatter={formatYAxisTick}
-                >
-                  <Label
-                    angle={270}
-                    position="left"
-                    style={{
-                      textAnchor: "middle",
-                      fill: theme.palette.text.primary,
-                      ...theme.typography.body1,
-                    }}
-                  >
-                    Mt
-                  </Label>
-                </YAxis>
-                <YAxis yAxisId="right" orientation="right">
-                  <Label
-                    angle={270}
-                    position="right"
-                    style={{
-                      textAnchor: "middle",
-                      fill: theme.palette.text.primary,
-                      ...theme.typography.body1,
-                    }}
-                  >
-                    t
-                  </Label>
-                </YAxis>
-
-                <Line
-                  isAnimationActive={false}
-                  type="monotone"
-                  yAxisId={"left"}
-                  dataKey="CO2"
-                  stroke={theme.palette.primary.main}
-                  activeDot={{
-                    stroke: theme.palette.primary.main,
-                    strokeWidth: 2,
-                    fill: "#fff",
-                    r: 5,
+            {chartData ? (
+              <ResponsiveContainer>
+                <LineChart
+                  data={chartData}
+                  margin={{
+                    top: 16,
+                    right: 16,
+                    bottom: 0,
+                    left: 24,
                   }}
-                />
-                <Line
-                  isAnimationActive={false}
-                  yAxisId={"right"}
-                  type="monotone"
-                  dataKey="CH4"
-                  stroke={theme.palette.secondary.main}
-                  dot={false}
-                />
-                <Line
-                  isAnimationActive={false}
-                  yAxisId={"right"}
-                  type="monotone"
-                  dataKey="N2O"
-                  stroke={theme.palette.success.main}
-                  dot={false}
-                />
-                <Tooltip />
-              </LineChart>
-            </ResponsiveContainer>
+                >
+                  <XAxis
+                    dataKey="name"
+                    stroke={theme.palette.text.secondary}
+                    style={theme.typography.body2}
+                  />
+                  <YAxis
+                    yAxisId="left"
+                    stroke={theme.palette.text.secondary}
+                    tickFormatter={formatYAxisTick}
+                  >
+                    <Label
+                      angle={270}
+                      position="left"
+                      style={{
+                        textAnchor: "middle",
+                        fill: theme.palette.text.primary,
+                        ...theme.typography.body1,
+                      }}
+                    >
+                      Mt
+                    </Label>
+                  </YAxis>
+                  <YAxis yAxisId="right" orientation="right">
+                    <Label
+                      angle={270}
+                      position="right"
+                      style={{
+                        textAnchor: "middle",
+                        fill: theme.palette.text.primary,
+                        ...theme.typography.body1,
+                      }}
+                    >
+                      t
+                    </Label>
+                  </YAxis>
+
+                  <Line
+                    isAnimationActive={false}
+                    type="monotone"
+                    yAxisId={"left"}
+                    dataKey="CO2"
+                    stroke={theme.palette.primary.main}
+                    activeDot={{
+                      stroke: theme.palette.primary.main,
+                      strokeWidth: 2,
+                      fill: "#fff",
+                      r: 5,
+                    }}
+                  />
+                  <Line
+                    isAnimationActive={false}
+                    yAxisId={"right"}
+                    type="monotone"
+                    dataKey="CH4"
+                    stroke={theme.palette.secondary.main}
+                    dot={false}
+                  />
+                  <Line
+                    isAnimationActive={false}
+                    yAxisId={"right"}
+                    type="monotone"
+                    dataKey="N2O"
+                    stroke={theme.palette.success.main}
+                    dot={false}
+                  />
+                  <Tooltip />
+                </LineChart>
+              </ResponsiveContainer>
+            ) : (
+              <div>No data available</div>
+            )}
           </Paper>
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
