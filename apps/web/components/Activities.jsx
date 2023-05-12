@@ -8,7 +8,6 @@ import CopyToClipboard from "../components/CopyToClipboard";
 //TODO: Handle overflowing of table
 
 export default function ActivitiesComponent({ activities }) {
-  console.log(activities);
   return (
     <TableContainer className="px-5">
       <Table
@@ -17,14 +16,26 @@ export default function ActivitiesComponent({ activities }) {
         aria-label="table of activities"
       >
         <TableHead>
-          <TableRow sx={{ fontWeight: "bold" }}>
-            <TableCell>Date</TableCell>
-            <TableCell align="left">Amount</TableCell>
-            <TableCell align="left">Type</TableCell>
-            <TableCell align="left">CO2 Emissions</TableCell>
-            <TableCell align="left">CH4 Emissions</TableCell>
-            <TableCell align="left">N2O Emissions</TableCell>
-            <TableCell align="left">Copy UUID</TableCell>
+          <TableRow>
+            <TableCell sx={{ fontWeight: "bold" }}>Date</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              Amount
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              Type
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              CO2 Emissions
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              CH4 Emissions
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              N2O Emissions
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              Copy UUID
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

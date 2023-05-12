@@ -20,13 +20,13 @@ export default function Activities() {
   const [uuidError, setUuidError] = useState(null);
   const [dateInputError, setDateInputError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      // const response = await fetch('http://localhost:9080/climatix/activities');
-      // setServerInfo(await response.json());
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     // const response = await fetch('http://localhost:9080/climatix/activities');
+  //     // setServerInfo(await response.json());
+  //   };
+  //   fetchData();
+  // }, []);
 
   function retrieveActivities() {
     let location;

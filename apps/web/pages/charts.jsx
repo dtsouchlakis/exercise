@@ -11,11 +11,15 @@ import {
 import { Grid, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Activities from "../components/Activities";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 export default function Chart() {
   const [activities, setActivities] = useState([]);
   const [data, setData] = useState([]);
   const theme = useTheme();
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   function fetchData() {
     fetch(`http://localhost:9080/climatix/data`, {
       method: "GET",
@@ -40,19 +44,15 @@ export default function Chart() {
     }
   }
 
-  function setChartData() {
-    const newData = activities.map((element) => ({
+  const chartData = useMemo(() => {
+    return activities.map((element) => ({
       name: element.activityDate,
       CO2: element.emissions["CO2"],
       CH4: element.emissions["CH4"],
       N2O: element.emissions["N2O"],
     }));
-    setData(newData);
-  }
-  useEffect(() => {
-    fetchData();
-    setChartData();
-  });
+  }, [activities]);
+
   return (
     <>
       <Grid container spacing={3} className="mt-10">
@@ -75,7 +75,7 @@ export default function Chart() {
             </Typography>
             <ResponsiveContainer>
               <LineChart
-                data={data}
+                data={chartData}
                 margin={{
                   top: 16,
                   right: 16,
@@ -154,7 +154,7 @@ export default function Chart() {
           </Paper>
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-          <Paper className="pt-4">
+          <Paper className="pt-4 mb-12">
             <Activities activities={activities} />
           </Paper>
         </Grid>

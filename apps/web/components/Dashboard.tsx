@@ -113,15 +113,17 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
             <a className="flex items-center">
               <img
                 src="https://www.hanaloop.com/images/logo.png"
-                className="w-11 mr-2"
+                className="h-6 mr-2"
                 alt="logo"
               />
               <Typography
                 component="div"
                 style={{
                   color: "#374151",
-                  fontFamily: "ui-sans-serif",
+                  fontFamily:
+                    "ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji",
                   fontWeight: "700",
+                  fontSize: "1.125rem",
                 }}
               >
                 HanaLoop

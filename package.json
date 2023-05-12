@@ -20,6 +20,8 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@mui/icons-material": "^5.11.16"
+  },
   "packageManager": "yarn@1.22.17"
 }
