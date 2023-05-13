@@ -102,7 +102,13 @@ export class ClimatixController {
       }
     }
   }
-
+  @Get('/savings')
+  async getSavings(
+    @Req() req: any,
+  ): Promise<{ totalEmissions: Array<number>; emissionReduced: number }> {
+    const savings = await this.climatixService.getSavings();
+    return savings;
+  }
   @Get('/categories')
   async getCategories(@Req() req: any): Promise<string[]> {
     const categories = await this.climatixService.getAllActivityCategories();

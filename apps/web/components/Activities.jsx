@@ -50,19 +50,24 @@ export default function ActivitiesComponent({ activities }) {
               <TableCell align="left">{activity.amount}</TableCell>
               <TableCell align="left">{activity.activityType}</TableCell>
               <TableCell align="left">
-                {activity.emissions["CO2"].toLocaleString()}t
+                {activity.emissions["CO2"].toLocaleString()}kg
               </TableCell>
               <TableCell align="left">
-                {activity.emissions["CH4"].toLocaleString()}t
+                {activity.emissions["CH4"].toLocaleString()}kg
               </TableCell>
               <TableCell align="left">
-                {activity.emissions["N2O"].toLocaleString()}t
+                {activity.emissions["N2O"].toLocaleString()}kg
               </TableCell>
               <TableCell align="left">
                 <CopyToClipboard input={activity.uuid} />
               </TableCell>
             </TableRow>
           ))}
+          {activities.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={7}>No activities found</TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </TableContainer>

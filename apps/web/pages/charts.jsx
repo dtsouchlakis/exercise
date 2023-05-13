@@ -15,6 +15,7 @@ import { useState, useEffect, useMemo } from "react";
 export default function Chart() {
   const [activities, setActivities] = useState([]);
   const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
   const theme = useTheme();
   useEffect(() => {
     fetchData();
@@ -30,7 +31,10 @@ export default function Chart() {
         console.log(data);
         setActivities(data.activities);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        setError("Error fetching data");
+      });
   }
   function formatYAxisTick(value) {
     if (Math.abs(value) >= 1000000000) {
@@ -43,7 +47,7 @@ export default function Chart() {
       return `${value} `;
     }
   }
-
+  //TODO: simplify this
   const chartData = useMemo(() => {
     return activities.map((element) => ({
       name: element.activityDate,
@@ -55,7 +59,7 @@ export default function Chart() {
 
   return (
     <>
-      <Grid container spacing={3} className="mt-10">
+      <Grid container spacing={3}>
         <Grid item xs={12} md={12} lg={12}>
           <Paper
             sx={{
@@ -73,7 +77,7 @@ export default function Chart() {
             >
               Emissions
             </Typography>
-            {chartData ? (
+            {activities.length ? (
               <ResponsiveContainer>
                 <LineChart
                   data={chartData}
@@ -103,7 +107,7 @@ export default function Chart() {
                         ...theme.typography.body1,
                       }}
                     >
-                      Mt
+                      Kt
                     </Label>
                   </YAxis>
                   <YAxis yAxisId="right" orientation="right">
@@ -116,7 +120,7 @@ export default function Chart() {
                         ...theme.typography.body1,
                       }}
                     >
-                      t
+                      Kg
                     </Label>
                   </YAxis>
 
@@ -152,6 +156,8 @@ export default function Chart() {
                   <Tooltip />
                 </LineChart>
               </ResponsiveContainer>
+            ) : error ? (
+              <div className="text-red-600 font-bold">{error}</div>
             ) : (
               <div>No data available</div>
             )}

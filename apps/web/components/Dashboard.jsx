@@ -148,9 +148,8 @@ export default function Dashboard({ children }) {
           disableGutters
           maxWidth="xl"
           sx={{
-            mt: 8,
-            pr: 4,
-            pl: 8,
+            pt: 12,
+            px: 4,
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",

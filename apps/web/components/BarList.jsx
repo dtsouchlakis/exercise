@@ -11,7 +11,7 @@ export default function BarList() {
     {
       label: "Dashboard",
       icon: <Dashboard />,
-      to: "/",
+      to: "/dashboard",
     },
     {
       label: "Add activity",

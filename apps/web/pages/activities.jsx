@@ -66,17 +66,19 @@ export default function Activities() {
 
         console.log(data);
         setActivities(data);
-        setError(data.length === 0); // set error state based on whether there was data or not
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        setError("Server Error");
+      });
   }
 
   return (
     <>
-      <div className="w-full bg-white px-10 mt-10 py-2 mt-14 rounded-t-lg">
-        <form className="flex flex-row items-center">
+      <div className="w-full bg-white px-10  py-2  rounded-t-lg">
+        <form className="flex flex-row items-center border-black border-1 border-solid">
           {/* <h2>Retrieve activities</h2> */}
-          <div className="flex h-10">
+          <div className="flex h-10 py-2 mb-2">
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
               defaultValue="date"
@@ -110,7 +112,7 @@ export default function Activities() {
                 <DatePicker //TODO:Need to reselect date for the date filter to be correctly submitted
                   disableFuture
                   label="Date filter"
-                  value={setDateInput}
+                  inputFormat="YYYY-MM-DD"
                   defaultValue={dateInput}
                   sx={{
                     "& .MuiInputBase-input": {
@@ -146,10 +148,13 @@ export default function Activities() {
             <h3 className="mb-4">
               Retrieve your historical activities by filtering by {select}
             </h3>
-            {error && <p>No activities found</p>}
             {activities.length !== 0 ? (
               <ActivitiesComponent activities={activities} />
-            ) : null}
+            ) : error ? (
+              <p className="text-red-600">{error}</p>
+            ) : (
+              <p>No activities found</p>
+            )}
           </Paper>
         </Grid>
       </Grid>

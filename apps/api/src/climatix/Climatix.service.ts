@@ -106,13 +106,26 @@ export class ClimatixService implements OnModuleInit {
     }
     this.logger.log(activityData);
     return activityData;
-
-    // TODO: Implement the emissions for each of the greenhouse gasses
-
-    // The calculation method is:
-    // Find the appropriate emission factor and multiply by the activity amount
-    // E.g. activityData.emissions.[gas] = (EmissionFactor of activityData.activityType)  * activityData.amount
-
-    // return null;
+  }
+  //Get the users savings from their reduced emissions
+  async getSavings(): Promise<{
+    totalEmissions: Array<number>;
+    emissionReduced: number;
+  }> {
+    const activities = Object.values(this.activityDb);
+    let totalEmissions = [];
+    activities.forEach((activity) => {
+      totalEmissions.push(activity.emissions.CO2);
+    });
+    totalEmissions = eval(totalEmissions.join('+'));
+    let emissionReduced = 0;
+    let previousEmission = 0;
+    activities.forEach((activity) => {
+      if (previousEmission) {
+        emissionReduced += activity.emissions.CO2 - previousEmission;
+      }
+      previousEmission = activity.emissions.CO2;
+    });
+    return { totalEmissions: totalEmissions, emissionReduced };
   }
 }
