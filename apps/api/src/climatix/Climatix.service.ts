@@ -109,7 +109,7 @@ export class ClimatixService implements OnModuleInit {
   }
   //Get the users savings from their reduced emissions
   async getSavings(): Promise<{
-    totalEmissions: Array<number>;
+    totalEmissions: any;
     emissionReduced: number;
   }> {
     const activities = Object.values(this.activityDb);

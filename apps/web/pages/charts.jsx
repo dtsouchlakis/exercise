@@ -22,7 +22,7 @@ export default function Chart() {
   }, []);
 
   function fetchData() {
-    fetch(`http://localhost:9080/climatix/data`, {
+    fetch(`http://127.0.0.1:9080/climatix/data`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })

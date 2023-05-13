@@ -10,34 +10,34 @@ import Grid from "@mui/material/Grid";
 // TODO: Add server errors on other screens
 // TODO: Fix logo font
 
-const testData = [
-  { amount: 1, activityDate: "2023-05-11", activityType: "lng" },
-  { amount: 1, activityDate: "2023-05-12", activityType: "lng" },
-  { amount: 1, activityDate: "2023-05-13", activityType: "lng" },
-  { amount: 1, activityDate: "2023-05-14", activityType: "lng" },
-  { amount: 1, activityDate: "2023-05-15", activityType: "lng" },
-  { amount: 1, activityDate: "2023-05-16", activityType: "lng" },
-  { amount: 1, activityDate: "2023-05-17", activityType: "lng" },
-  { amount: 1, activityDate: "2023-05-18", activityType: "lng" },
-  { amount: 1, activityDate: "2023-05-19", activityType: "lng" },
-  { amount: 0.5, activityDate: "2023-05-20", activityType: "lng" },
-];
+// const testData = [
+//   { amount: 1, activityDate: "2023-05-11", activityType: "lng" },
+//   { amount: 1, activityDate: "2023-05-12", activityType: "lng" },
+//   { amount: 1, activityDate: "2023-05-13", activityType: "lng" },
+//   { amount: 1, activityDate: "2023-05-14", activityType: "lng" },
+//   { amount: 1, activityDate: "2023-05-15", activityType: "lng" },
+//   { amount: 1, activityDate: "2023-05-16", activityType: "lng" },
+//   { amount: 1, activityDate: "2023-05-17", activityType: "lng" },
+//   { amount: 1, activityDate: "2023-05-18", activityType: "lng" },
+//   { amount: 1, activityDate: "2023-05-19", activityType: "lng" },
+//   { amount: 0.5, activityDate: "2023-05-20", activityType: "lng" },
+// ];
 
-function loadTestData() {
-  testData.forEach((element) => {
-    fetch("http://localhost:9080/climatix/activities", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        amount: parseInt(element.amount),
-        activityDate: element.activityDate,
-        activityType: element.activityType,
-        emissions: { CO2: 0, CH4: 0, N2O: 0 },
-      }),
-    });
-  });
-}
-loadTestData();
+// function loadTestData() {
+//   testData.forEach((element) => {
+//     fetch("http://127.0.0.1:9080/climatix/activities", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({
+//         amount: parseInt(element.amount),
+//         activityDate: element.activityDate,
+//         activityType: element.activityType,
+//         emissions: { CO2: 0, CH4: 0, N2O: 0 },
+//       }),
+//     });
+//   });
+// }
+// loadTestData();
 
 export default function Web() {
   const [serverInfo, setServerInfo] = useState({});
@@ -56,7 +56,7 @@ export default function Web() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:9080/climatix/categories"
+          "http://127.0.0.1:9080/climatix/categories"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch activity options");
@@ -74,7 +74,7 @@ export default function Web() {
   }, []);
   useEffect(() => {
     const fetchAllData = async () => {
-      const response = await fetch("http://localhost:9080/climatix/data/");
+      const response = await fetch("http://127.0.0.1:9080/climatix/data/");
       console.log(await response.json());
     };
     fetchAllData();
@@ -115,7 +115,7 @@ export default function Web() {
       typeInput &&
       !typeInputError
     ) {
-      fetch("http://localhost:9080/climatix/activities", {
+      fetch("http://127.0.0.1:9080/climatix/activities", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

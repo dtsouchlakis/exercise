@@ -105,7 +105,7 @@ export class ClimatixController {
   @Get('/savings')
   async getSavings(
     @Req() req: any,
-  ): Promise<{ totalEmissions: Array<number>; emissionReduced: number }> {
+  ): Promise<{ totalEmissions: any; emissionReduced: number }> {
     const savings = await this.climatixService.getSavings();
     return savings;
   }

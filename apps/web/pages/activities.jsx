@@ -22,7 +22,7 @@ export default function Activities() {
 
   // useEffect(() => {
   //   const fetchData = async () => {
-  //     // const response = await fetch('http://localhost:9080/climatix/activities');
+  //     // const response = await fetch('http://127.0.0.1:9080/climatix/activities');
   //     // setServerInfo(await response.json());
   //   };
   //   fetchData();
@@ -56,7 +56,7 @@ export default function Activities() {
       input = uuidInput.current.value;
     }
 
-    fetch(`http://localhost:9080/climatix/activities/?${location}=${input}`, {
+    fetch(`http://127.0.0.1:9080/climatix/activities/?${location}=${input}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })

@@ -1,23 +1,10 @@
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Label,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
-import LinearProgress, {
-  LinearProgressProps,
-} from "@mui/material/LinearProgress";
+import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import ForestIcon from "@mui/icons-material/Forest";
 import { Grid, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import Activities from "../components/Activities";
 import { useState, useEffect, useMemo } from "react";
 import Fade from "@mui/material/Fade";
-import { Calculate } from "@mui/icons-material";
 
 export default function Chart() {
   const [savings, setSavings] = useState([]);
@@ -28,7 +15,7 @@ export default function Chart() {
 
   useEffect(() => {
     function loadSavings() {
-      fetch("http://localhost:9080/climatix/savings", {
+      fetch("http://127.0.0.1:9080/climatix/savings", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
@@ -40,7 +27,7 @@ export default function Chart() {
     }
     loadSavings();
     console.log(savings);
-  }, []);
+  });
   const trees = useMemo(() => {
     if (!savings?.emissionReduced) {
       return 0;
@@ -76,20 +63,6 @@ export default function Chart() {
         </Box>
       </Box>
     );
-  }
-  function animateNumber(maxValue) {
-    const duration = 1000; // 1 second
-    const startValue = 0;
-    const step = (maxValue - startValue) / duration;
-    let currentValue = startValue;
-    const interval = setInterval(() => {
-      currentValue += step;
-      if (currentValue >= maxValue) {
-        clearInterval(interval);
-        currentValue = maxValue;
-      }
-      console.log(currentValue); // replace with your own logic to update the UI
-    }, 1); // update every millisecond
   }
 
   return (
