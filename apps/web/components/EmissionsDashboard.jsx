@@ -44,8 +44,8 @@ export default function EmissionDashboard({ savings, progress, trees }) {
             Getting Started
           </Typography>
           <p>
-            You're on the right track towards reducing emissions keep adding
-            your activities to achieve your sustainability goals. Click{" "}
+            You&apos;re on the right track towards reducing emissions keep
+            adding your activities to achieve your sustainability goals. Click{" "}
             <Link href="/" className="underline text-blue-600">
               here
             </Link>{" "}
