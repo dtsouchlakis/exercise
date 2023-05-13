@@ -1,242 +1,246 @@
-import React, { useEffect, useState, useRef } from "react";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
-import dayjs from "dayjs";
-import { TextField, Button, Autocomplete } from "@mui/material";
+import Link from "next/link";
+import Box from "@mui/material/Box";
+import Fade from "@mui/material/Fade";
 import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
+import { Grid, Typography } from "@mui/material";
+import ForestIcon from "@mui/icons-material/Forest";
+import { useState, useEffect, useMemo } from "react";
+import LinearProgress from "@mui/material/LinearProgress";
 
-// TODO: Add no history, no emissions on tables and charts
-// TODO: Add server errors on other screens
-// TODO: Fix logo font
+function LinearProgressWithLabel(props) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ width: "100%", mr: 1 }}>
+        <LinearProgress
+          variant="determinate"
+          {...props}
+          className="h-3 rounded-lg my-4"
+        />
+      </Box>
+      <Box sx={{ minWidth: 35 }}>
+        <Typography variant="body2" color="text.secondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 
-// const testData = [
-//   { amount: 1, activityDate: "2023-05-11", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-12", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-13", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-14", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-15", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-16", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-17", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-18", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-19", activityType: "lng" },
-//   { amount: 0.5, activityDate: "2023-05-20", activityType: "lng" },
-// ];
-
-// function loadTestData() {
-//   testData.forEach((element) => {
-//     fetch("http://127.0.0.1:9080/climatix/activities", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({
-//         amount: parseInt(element.amount),
-//         activityDate: element.activityDate,
-//         activityType: element.activityType,
-//         emissions: { CO2: 0, CH4: 0, N2O: 0 },
-//       }),
-//     });
-//   });
-// }
-// loadTestData();
-
-export default function Web() {
-  const [serverInfo, setServerInfo] = useState({});
-  const [dateInput, setDateInput] = useState(dayjs());
-  const amountInput = useRef(null);
-  const [typeInput, setTypeInput] = useState(null);
-  const [success, setSuccess] = useState(null);
-  const [dateInputError, setDateInputError] = useState(null);
-  const [amountInputError, setAmountInputError] = useState(null);
-  const [typeInputError, setTypeInputError] = useState(null);
-  const [lastUuid, setLastUuid] = useState(null);
-  const [activityOptions, setActivityOptions] = useState([]);
+export default function Chart() {
+  const [savings, setSavings] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "http://127.0.0.1:9080/climatix/categories"
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch activity options");
-        }
-        const data = await response.json();
-        setActivityOptions(data);
-        console.log(data);
-        setError(null);
-      } catch (error) {
-        console.error(error);
-        setError("Server Error");
-      }
-    };
-    fetchData();
-  }, []);
-  useEffect(() => {
-    const fetchAllData = async () => {
-      const response = await fetch("http://127.0.0.1:9080/climatix/data/");
-      console.log(await response.json());
-    };
-    fetchAllData();
-  }, []);
-  function flashConfirm() {
-    setSuccess(true);
-    setTimeout(() => {
-      setSuccess(false);
-    }, 7000);
-  }
-  function validateInputs() {
-    const now = new Date();
-    if (!dateInput) {
-      setDateInputError("You must select a date");
-    } else if (dateInput > now) {
-      setDateInputError("Date is in the future");
-    } else {
-      setDateInputError(false);
-    }
-    if (!amountInput.current.value) {
-      setAmountInputError("Amount is invalid");
-    } else {
-      setAmountInputError(false);
-    }
-    if (!typeInput) {
-      setTypeInputError("Please select an activity type");
-    } else {
-      setTypeInputError(false);
-    }
-  }
-  function submitActivity() {
-    validateInputs();
-    if (
-      !dateInputError &&
-      dateInput &&
-      !amountInputError &&
-      amountInput?.current?.value &&
-      typeInput &&
-      !typeInputError
-    ) {
-      fetch("http://127.0.0.1:9080/climatix/activities", {
-        method: "POST",
+    function loadSavings() {
+      fetch("http://127.0.0.1:9080/climatix/savings", {
+        method: "GET",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          amount: parseInt(amountInput.current.value),
-          activityDate: dateInput.format("YYYY-MM-DD").toString(),
-          activityType: typeInput,
-          emissions: { CO2: 0, CH4: 0, N2O: 0 },
-        }),
       })
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          flashConfirm();
-          setLastUuid(data.uuid);
+          setSavings(data);
         })
         .catch((error) => {
-          console.error(error);
-          setError("Server Error");
+          setError("Server error");
         });
     }
-  }
+    loadSavings();
+    console.log(savings);
+  });
+
+  const trees = useMemo(() => {
+    if (!savings?.emissionReduced) {
+      return 0;
+    } else {
+      return Math.floor(Math.abs(savings.emissionReduced) / 40);
+    }
+  }, [savings]);
+
+  const progress = useMemo(() => {
+    if (!savings?.emissionReduced || !savings?.totalEmissions) {
+      return 0;
+    } else {
+      console.log(savings.totalEmissions / savings.emissionReduced);
+      return Math.floor(
+        (Math.abs(savings.emissionReduced) / savings.totalEmissions) * 100
+      );
+    }
+  }, [savings]);
+
   return (
     <>
-      {/* <h1 className="text-3xl text-lime-800 mt-10 text-left">Climatix App</h1> */}
       <Grid container spacing={3}>
-        <Grid item xs={3}>
-          <Paper className="flex flex-col  items-center rounded-md">
-            <form className="flex flex-col border-solid border-2 border-cyan-700 p-9 rounded-md px-12 max-w-sm">
-              <h2>Add Activity</h2>
-
-              <TextField
-                id="amount"
-                label="Amount"
-                variant="outlined"
-                required
-                className="mt-5"
-                inputRef={amountInput}
-                type="number"
-                onChange={(e) => {
-                  setAmountInputError(false);
-                }}
-                error={Boolean(amountInputError)}
-                helperText={amountInputError ? amountInputError : " "}
-              />
-
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Select date for activity"
-                  onChange={(newValue) => {
-                    setDateInput(newValue);
-                    setDateInputError(false);
-                  }}
-                  disableFuture
-                  defaultValue={dayjs()}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      error={Boolean(dateInputError)}
-                      helperText={dateInputError ? dateInputError : " "}
-                    />
-                  )}
-                />
-              </LocalizationProvider>
-              <Autocomplete
-                id="activityType"
-                disablePortal
-                options={activityOptions}
-                value={typeInput}
-                className="mt-5"
-                onInputChange={(e, newInputValue) => {
-                  setTypeInput(newInputValue);
-                  setTypeInputError(false);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Activity type"
-                    error={Boolean(typeInputError)}
-                    helperText={typeInputError ? typeInputError : " "}
-                  />
-                )}
-              />
-              <Button
-                variant="outlined"
-                onClick={submitActivity}
-                className="mt-5"
+        <Grid item xs={12} md={12} lg={12}>
+          <Paper
+            sx={{
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Typography component="h4" variant="h6" color="primary">
+              Welcome to the Emissions Dashboard!
+            </Typography>
+            <p>
+              Take control of your environmental impact and join us in making a
+              positive change for our planet. This dashboard empowers you to
+              calculate and track your greenhouse gas emissions, enabling you to
+              make informed decisions and contribute to a sustainable future.
+              Monitor Your Emissions, Make a Difference! Explore the features
+              and tools designed to help you understand and reduce your carbon
+              footprint. From activity tracking to emission reduction
+              strategies, we provide you with the insights and resources you
+              need to make a meaningful impact. Together, we can create a
+              greener world! Start exploring now and see the difference you can
+              make.
+            </p>
+          </Paper>
+        </Grid>
+        {error ? (
+          <p>{error}</p>
+        ) : savings.emissionReduced === 0 ? (
+          <Grid item xs={12} md={12} lg={12}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Typography
+                component="h4"
+                variant="h6"
+                color="primary"
+                className="mb-4"
               >
-                Submit
-              </Button>
-            </form>
-          </Paper>
-        </Grid>
-        <Grid item xs={9}>
-          <Paper className="px-10 pt-10 pb-20 rounded-md">
-            <div className=" flex flex-col h-full">
-              <div className="flex flex-col lg:text-md md:text-base sm:text-xs">
-                <h3 className="font-semibold mb-5 ">
-                  Add your activity on the left to calculate and save your
-                  incured emissions.
-                </h3>
-                <ol className="list-decimal">
-                  <li>Enter the amount incured</li>
-                  <li>Enter the date of the emission</li>
-                  <li>Enter the activity type</li>
-                  <li>Submit your activity</li>
-                </ol>
-                {success ? (
-                  <p className="text-lime-500">
-                    Successfuly added activity with uuid: <br></br> {lastUuid}
-                  </p>
-                ) : (
-                  <p>
-                    <br></br>
-                    <br></br>
-                  </p>
-                )}
-                {error ? <p className="text-red-500 text-2xl">{error}</p> : " "}
-              </div>
-            </div>
-          </Paper>
-        </Grid>
+                Getting Started
+              </Typography>
+              <p>
+                To see more information about the impact of your emissions click{" "}
+                <Link href="/" className="underline text-blue-600">
+                  here
+                </Link>{" "}
+                to start adding your activities.
+              </p>
+            </Paper>
+          </Grid>
+        ) : (
+          <>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper
+                sx={{
+                  p: 2,
+                  pb: 4,
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography
+                  component="h4"
+                  variant="h6"
+                  color="primary"
+                  className="mb-4"
+                >
+                  Impact
+                </Typography>
+
+                <p>
+                  You have reduced your emissions by{" "}
+                  {Math.abs(savings.emissionReduced).toLocaleString()}Kg
+                </p>
+                <LinearProgressWithLabel value={progress} />
+                <p>{100 - progress}% left to net zero</p>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={4} md={4} lg={4}>
+              <Paper
+                sx={{
+                  p: 6,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <p className="text-2xl mb-8 text-center text-lime-700">
+                  You planted the equivalent of {trees} trees
+                </p>
+                <div className="flex flex-col w-40 border-b-2 border-red-700">
+                  <div className="flex flex-row justify-center -mb-8 text-lime-700 ">
+                    <Fade in={true} appeared={true} timeout={1000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                    <Fade in={true} appeared={true} timeout={4000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                    <Fade in={true} appeared={true} timeout={1000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                    <Fade in={true} appeared={true} timeout={3000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                  </div>
+                  <div className="flex flex-row justify-center -mb-6 text-lime-600">
+                    <Fade in={true} appeared={true} timeout={1000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                    <Fade in={true} appeared={true} timeout={4000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                    <Fade in={true} appeared={true} timeout={2000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                  </div>
+                  <div className="flex flex-row justify-center text-lime-500">
+                    <Fade in={true} appeared={true} timeout={1000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                    <Fade in={true} appeared={true} timeout={3000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                    <Fade in={true} appeared={true} timeout={2000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                    <Fade in={true} appeared={true} timeout={2000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                  </div>
+                  <div className="flex flex-row justify-center -mt-6 text-lime-400">
+                    <Fade in={true} appeared={true} timeout={1000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                    <Fade in={true} appeared={true} timeout={3000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                    <Fade in={true} appeared={true} timeout={1000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                    <Fade in={true} appeared={true} timeout={2000}>
+                      <ForestIcon fontSize="large" />
+                    </Fade>
+                  </div>
+                </div>
+              </Paper>
+            </Grid>
+            <Grid item xs={8} md={8} lg={8}>
+              <Paper sx={{ py: 4, px: 6 }}>
+                <Typography
+                  component="h4"
+                  variant="h6"
+                  color="primary"
+                  className="mb-4"
+                >
+                  CO2 reduction
+                </Typography>
+                <p>
+                  <strong>{-savings.emissionReduced / 1000} </strong> tonnes
+                  less CO2 in the atmosphere
+                </p>
+              </Paper>
+            </Grid>
+          </>
+        )}
       </Grid>
     </>
   );

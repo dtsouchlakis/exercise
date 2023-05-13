@@ -11,12 +11,12 @@ export default function BarList() {
     {
       label: "Dashboard",
       icon: <Dashboard />,
-      to: "/dashboard",
+      to: "/",
     },
     {
       label: "Add activity",
       icon: <PlaylistAdd />,
-      to: "/",
+      to: "/activityAdd",
     },
     {
       label: "Activity history",

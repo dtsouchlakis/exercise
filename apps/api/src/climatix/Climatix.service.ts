@@ -53,6 +53,7 @@ export class ClimatixService implements OnModuleInit {
 
     return activityData;
   }
+
   async getAllActivitybyDate(date: string): Promise<ActivityDataDto[]> {
     this.logger.log(date);
     const matchingActivities = Object.values(this.activityDb).filter(
@@ -60,6 +61,7 @@ export class ClimatixService implements OnModuleInit {
     );
     return matchingActivities;
   }
+
   async getAllActivitybyUUID(uuid: string): Promise<ActivityDataDto[]> {
     const matchingActivities = Object.values(this.activityDb).filter(
       (activity) => activity.uuid == uuid,
@@ -76,6 +78,7 @@ export class ClimatixService implements OnModuleInit {
     return Array.from(categories);
   }
   // TODO implement other methods as needed
+
   async getAllData(): Promise<{
     activities: ActivityDataDto[];
     emissionFactors: EmissionFactorDto[];
@@ -107,6 +110,7 @@ export class ClimatixService implements OnModuleInit {
     this.logger.log(activityData);
     return activityData;
   }
+
   //Get the users savings from their reduced emissions
   async getSavings(): Promise<{
     totalEmissions: any;

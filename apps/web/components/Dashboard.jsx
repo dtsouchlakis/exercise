@@ -85,7 +85,6 @@ const mdTheme = createTheme();
 
 export default function Dashboard({ children }) {
   const [open, setOpen] = useState(false);
-  const [currPage, setCurrPage] = useState("");
   const toggleDrawer = () => {
     setOpen(!open);
   };

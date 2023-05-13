@@ -5,7 +5,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import CopyToClipboard from "../components/CopyToClipboard";
-//TODO: Handle overflowing of table
 
 export default function ActivitiesComponent({ activities }) {
   return (

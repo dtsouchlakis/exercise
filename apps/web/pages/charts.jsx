@@ -1,4 +1,6 @@
+import Paper from "@mui/material/Paper";
 import { useTheme } from "@mui/material/styles";
+import { Grid, Typography } from "@mui/material";
 import {
   LineChart,
   Line,
@@ -8,15 +10,15 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import { Grid, Typography } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import Activities from "../components/Activities";
 import { useState, useEffect, useMemo } from "react";
+
 export default function Chart() {
   const [activities, setActivities] = useState([]);
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const theme = useTheme();
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -36,6 +38,7 @@ export default function Chart() {
         setError("Error fetching data");
       });
   }
+
   function formatYAxisTick(value) {
     if (Math.abs(value) >= 1000000000) {
       return `${value / 1000000000} `;
@@ -48,6 +51,7 @@ export default function Chart() {
     }
   }
   //TODO: simplify this
+
   const chartData = useMemo(() => {
     return activities.map((element) => ({
       name: element.activityDate,

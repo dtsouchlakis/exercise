@@ -1,7 +1,9 @@
 import dayjs from "dayjs";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 import Radio from "@mui/material/Radio";
-import Button from "@mui/material/Button";
 import { TextField } from "@mui/material";
+import Button from "@mui/material/Button";
 import RadioGroup from "@mui/material/RadioGroup";
 import { useEffect, useState, useRef } from "react";
 import ActivitiesComponent from "../components/Activities";
@@ -9,8 +11,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
+
 export default function Activities() {
   const [activities, setActivities] = useState([]);
   const [dateInput, setDateInput] = useState(dayjs());
@@ -29,18 +30,16 @@ export default function Activities() {
   // }, []);
 
   function retrieveActivities() {
-    let location;
-    let input;
     const uuidRegex =
       /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
+    let location;
+    let input;
     if (select === "date") {
       if (!dateInput) {
-        // check if dateInput is null before proceeding
         setDateInputError("Please enter a valid date");
         return;
       }
-
       location = "date";
       input = dateInput.format("YYYY-MM-DD").toString();
     } else if (select === "uuid") {
@@ -51,7 +50,6 @@ export default function Activities() {
         setUuidError("Please enter a valid UUID");
         return;
       }
-
       location = "uuid";
       input = uuidInput.current.value;
     }
@@ -62,9 +60,6 @@ export default function Activities() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(input, location);
-
-        console.log(data);
         setActivities(data);
       })
       .catch((error) => {
@@ -75,9 +70,8 @@ export default function Activities() {
 
   return (
     <>
-      <div className="w-full bg-white px-10  py-2  rounded-t-lg">
+      <div className="w-full bg-white px-10  py-2  border-solid border-2 border-cyan-700 p-9 rounded-t-md">
         <form className="flex flex-row items-center border-black border-1 border-solid">
-          {/* <h2>Retrieve activities</h2> */}
           <div className="flex h-10 py-2 mb-2">
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
@@ -109,7 +103,7 @@ export default function Activities() {
               />
             ) : (
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker //TODO:Need to reselect date for the date filter to be correctly submitted
+                <DatePicker
                   disableFuture
                   label="Date filter"
                   inputFormat="YYYY-MM-DD"
@@ -140,9 +134,6 @@ export default function Activities() {
         </form>
       </div>
       <Grid container spacing={3}>
-        {/* <h1 className="text-3xl text-lime-800 mb-12">
-          Climatix App: Activities
-        </h1> */}
         <Grid item xs={12} sm={6} md={4} lg={12}>
           <Paper className="  flex flex-col items-center py-4">
             <h3 className="mb-4">

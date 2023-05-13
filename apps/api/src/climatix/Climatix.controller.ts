@@ -18,7 +18,6 @@ import { ClimatixService } from './Climatix.service';
 @ApiTags('climatix')
 export class ClimatixController {
   private readonly logger = new Logger(ClimatixController.name);
-
   constructor(private readonly climatixService: ClimatixService) {}
 
   @Get('/info')
@@ -78,10 +77,12 @@ export class ClimatixController {
       if (date) {
         // Retrieve activity data by date only
         const data = await this.climatixService.getAllActivitybyDate(date);
+
         return data;
       } else if (uuid) {
         // Retrieve activity data by UUID only
         const data = await this.climatixService.getAllActivitybyUUID(uuid);
+
         return data;
       } else {
         // No query parameters specified
@@ -102,16 +103,20 @@ export class ClimatixController {
       }
     }
   }
+
   @Get('/savings')
   async getSavings(
     @Req() req: any,
   ): Promise<{ totalEmissions: any; emissionReduced: number }> {
     const savings = await this.climatixService.getSavings();
+
     return savings;
   }
+
   @Get('/categories')
   async getCategories(@Req() req: any): Promise<string[]> {
     const categories = await this.climatixService.getAllActivityCategories();
+
     return categories;
   }
 }
