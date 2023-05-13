@@ -10,7 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const options = new DocumentBuilder()
-    .setTitle("Climatix")
+    .setTitle('Climatix')
     .setDescription(`The Climate `)
     .setVersion('0.1')
     .build();

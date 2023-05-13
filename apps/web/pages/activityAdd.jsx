@@ -1,45 +1,21 @@
 import dayjs from "dayjs";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import Snack from "../components/Snackbar";
+import InputAdornment from "@mui/material/InputAdornment";
 import React, { useEffect, useState, useRef } from "react";
 import { TextField, Button, Autocomplete } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
 
-// TODO: Add no history, no emissions on tables and charts
-// TODO: Add server errors on other screens
-// TODO: Fix logo font
-
-// const testData = [
-//   { amount: 1, activityDate: "2023-05-11", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-12", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-13", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-14", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-15", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-16", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-17", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-18", activityType: "lng" },
-//   { amount: 1, activityDate: "2023-05-19", activityType: "lng" },
-//   { amount: 0.5, activityDate: "2023-05-20", activityType: "lng" },
-// ];
-
-// function loadTestData() {
-//   testData.forEach((element) => {
-//     fetch("http://127.0.0.1:9080/climatix/activities", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({
-//         amount: parseInt(element.amount),
-//         activityDate: element.activityDate,
-//         activityType: element.activityType,
-//         emissions: { CO2: 0, CH4: 0, N2O: 0 },
-//       }),
-//     });
-//   });
-// }
-// loadTestData();
-
 export default function Web() {
+  //We could use the energy content to allow the user to input liters of gasoline or
+  //m3 of gas instead of TJ for ease of use. This could be also done in the backend,
+  //but I wanted to keep it simple for now
+
+  //Converting MJ/liter pt MJ/m3 to TJ/liter and TJ/m3.
+  const gasolineEnergyContentPerLiter = 34.2 / 1_000_000; //Not in use
+  const lngEnergyContentPerLiter = 39.8 / 1_000_000; //Not in use
   const [dateInput, setDateInput] = useState(dayjs());
   const amountInput = useRef(null);
   const [typeInput, setTypeInput] = useState(null);
@@ -69,14 +45,6 @@ export default function Web() {
       }
     };
     fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchAllData = async () => {
-      const response = await fetch("http://127.0.0.1:9080/climatix/data/");
-      console.log(await response.json());
-    };
-    fetchAllData();
   }, []);
 
   function flashSuccess() {
@@ -141,9 +109,10 @@ export default function Web() {
 
   return (
     <>
+      {error && <Snack error={error} />}
       <Grid container spacing={3}>
-        <Grid item xs={3}>
-          <Paper className="flex flex-col  items-center rounded-md">
+        <Grid item xs={9} sm={7} md={4} lg={3}>
+          <Paper className="flex flex-col  items-center rounded-md ">
             <form className="flex flex-col border-solid border-2 border-cyan-700 p-9 rounded-md px-12 max-w-sm">
               <h2>Add Activity</h2>
 
@@ -155,6 +124,11 @@ export default function Web() {
                 className="mt-5"
                 inputRef={amountInput}
                 type="number"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">TJ</InputAdornment>
+                  ),
+                }}
                 onChange={(e) => {
                   setAmountInputError(false);
                 }}
@@ -233,7 +207,6 @@ export default function Web() {
                     <br></br>
                   </p>
                 )}
-                {error ? <p className="text-red-500 text-2xl">{error}</p> : " "}
               </div>
             </div>
           </Paper>

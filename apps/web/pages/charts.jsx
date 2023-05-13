@@ -1,4 +1,5 @@
 import Paper from "@mui/material/Paper";
+import Snack from "../components/Snackbar";
 import { useTheme } from "@mui/material/styles";
 import { Grid, Typography } from "@mui/material";
 import {
@@ -15,7 +16,8 @@ import { useState, useEffect, useMemo } from "react";
 
 export default function Chart() {
   const [activities, setActivities] = useState([]);
-  const [data, setData] = useState([]);
+  const [labelLeft, setLabelLeft] = useState("");
+  const [labelRight, setLabelRight] = useState("");
   const [error, setError] = useState(null);
   const theme = useTheme();
 
@@ -23,6 +25,12 @@ export default function Chart() {
     fetchData();
   }, []);
 
+  // Sorts the given activities array by their activityDate property.
+  function sortActivitiesByDate(activities) {
+    activities.sort(
+      (a, b) => Date.parse(a.activityDate) - Date.parse(b.activityDate)
+    );
+  }
   function fetchData() {
     fetch(`http://127.0.0.1:9080/climatix/data`, {
       method: "GET",
@@ -30,8 +38,9 @@ export default function Chart() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        setActivities(data.activities);
+        let newActivities = [...data.activities];
+        sortActivitiesByDate(newActivities);
+        setActivities(newActivities);
       })
       .catch((error) => {
         console.error(error);
@@ -39,18 +48,39 @@ export default function Chart() {
       });
   }
 
+  // Formats the given value and updates the left y-axis label state variable accordingly.
   function formatYAxisTick(value) {
     if (Math.abs(value) >= 1000000000) {
+      setLabelLeft("Mtonnes");
       return `${value / 1000000000} `;
     } else if (Math.abs(value) >= 1000000) {
+      setLabelLeft("Ktonnes");
       return `${value / 1000000} `;
     } else if (Math.abs(value) >= 1000) {
+      setLabelLeft("tonnes");
       return `${value / 1000} `;
     } else {
+      setLabelLeft("kg");
       return `${value} `;
     }
   }
-  //TODO: simplify this
+
+  // Formats the given value and updates the right y-axis label state variable accordingly.
+  function formatYAxis2Tick(value) {
+    if (Math.abs(value) >= 1000000000) {
+      setLabelRight("Mtonnes");
+      return `${value / 1000000000} `;
+    } else if (Math.abs(value) >= 1000000) {
+      setLabelRight("Ktonnes");
+      return `${value / 1000000} `;
+    } else if (Math.abs(value) >= 1000) {
+      setLabelRight("tonnes");
+      return `${value / 1000} `;
+    } else {
+      setLabelRight("kg");
+      return `${value} `;
+    }
+  }
 
   const chartData = useMemo(() => {
     return activities.map((element) => ({
@@ -63,6 +93,7 @@ export default function Chart() {
 
   return (
     <>
+      {error && <Snack error={error} />}
       <Grid container spacing={3}>
         <Grid item xs={12} md={12} lg={12}>
           <Paper
@@ -111,10 +142,14 @@ export default function Chart() {
                         ...theme.typography.body1,
                       }}
                     >
-                      Kt
+                      {labelLeft}
                     </Label>
                   </YAxis>
-                  <YAxis yAxisId="right" orientation="right">
+                  <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    tickFormatter={formatYAxis2Tick}
+                  >
                     <Label
                       angle={270}
                       position="right"
@@ -124,7 +159,7 @@ export default function Chart() {
                         ...theme.typography.body1,
                       }}
                     >
-                      Kg
+                      {labelRight}
                     </Label>
                   </YAxis>
 
@@ -160,8 +195,6 @@ export default function Chart() {
                   <Tooltip />
                 </LineChart>
               </ResponsiveContainer>
-            ) : error ? (
-              <div className="text-red-600 font-bold">{error}</div>
             ) : (
               <div>No data available</div>
             )}

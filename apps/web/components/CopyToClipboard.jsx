@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IconButton, Snackbar } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+
 const CopyToClipboardButton = ({ input }) => {
   const [open, setOpen] = useState(false);
 

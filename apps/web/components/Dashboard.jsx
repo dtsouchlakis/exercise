@@ -1,21 +1,19 @@
-import React, { useState } from "react";
 import Link from "next/link";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { IconButton, Divider } from "@mui/material";
-import BarList from "./BarList";
-import MuiDrawer from "@mui/material/Drawer";
+import Sidebar from "./Sidebar";
+import { useState } from "react";
 import {
   styled,
   createTheme,
-  ThemeProvider,
-  CSSObject,
   StyledEngineProvider,
 } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
+import MuiAppBar from "@mui/material/AppBar";
+import MuiDrawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import Typography from "@mui/material/Typography";
+import { IconButton, Divider } from "@mui/material";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
@@ -140,7 +138,7 @@ export default function Dashboard({ children }) {
             </IconButton>
           </DrawerHeader>
           <Divider />
-          <BarList />
+          <Sidebar />
           <Divider />
         </Drawer>
         <Container

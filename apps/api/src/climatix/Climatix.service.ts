@@ -1,7 +1,9 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { ActivityDataDto } from './ActivityData.dto';
 import { EmissionFactorDto } from './EmissionFactor.dto';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+
+const CURRENT_ACTIVITIES = 10;
 
 @Injectable()
 export class ClimatixService implements OnModuleInit {
@@ -33,6 +35,29 @@ export class ClimatixService implements OnModuleInit {
         CH4: 5,
       },
     });
+
+    const propagateActivities = () => {
+      for (let i = 0; i < CURRENT_ACTIVITIES; i++) {
+        const uuid = Math.floor(Math.random() * 1000000).toString();
+        const amount = Math.floor(Math.random() * 10) + 1;
+        const day = Math.floor(Math.random() * 28) + 1;
+        const activityDate = `2022-01-${day < 10 ? '0' + day : day}`;
+        const activityType = ['gasoline', 'lng'][Math.floor(Math.random() * 2)];
+        const emissions = {
+          CO2: 0,
+          CH4: 0,
+          N2O: 0,
+        };
+        this.addActivity({
+          uuid,
+          amount,
+          activityDate,
+          activityType,
+          emissions,
+        });
+      }
+    };
+    propagateActivities();
     // There are more but for the purpose of assignment, these suffice
   }
 
@@ -46,7 +71,6 @@ export class ClimatixService implements OnModuleInit {
    */
   async addActivity(activityData: ActivityDataDto): Promise<ActivityDataDto> {
     activityData.uuid = uuidv4();
-    // TODO: populate activityData's emissions (hint: use the calculateEmission method)
     this.calculateEmission(activityData);
     // Inserting into DB
     this.activityDb[activityData.uuid] = activityData;
@@ -55,7 +79,6 @@ export class ClimatixService implements OnModuleInit {
   }
 
   async getAllActivitybyDate(date: string): Promise<ActivityDataDto[]> {
-    this.logger.log(date);
     const matchingActivities = Object.values(this.activityDb).filter(
       (activity) => activity.activityDate === date,
     );
@@ -69,15 +92,12 @@ export class ClimatixService implements OnModuleInit {
     return matchingActivities;
   }
   async getAllActivityCategories(): Promise<string[]> {
-    this.logger.log(this.emissionFactorDb);
     const categories = [];
     Object.values(this.emissionFactorDb).forEach((category) => {
-      Logger.log(category);
       categories.push(category.activityType);
     });
     return Array.from(categories);
   }
-  // TODO implement other methods as needed
 
   async getAllData(): Promise<{
     activities: ActivityDataDto[];
@@ -102,12 +122,11 @@ export class ClimatixService implements OnModuleInit {
         `No emission factor found for activity type ${activityData.activityType}`,
       );
     }
-    this.logger.log(emissionFactor);
     for (const factor in emissionFactor.factors) {
       activityData.emissions[factor] =
         emissionFactor.factors[factor] * activityData.amount;
     }
-    this.logger.log(activityData);
+
     return activityData;
   }
 
@@ -118,18 +137,22 @@ export class ClimatixService implements OnModuleInit {
   }> {
     const activities = Object.values(this.activityDb);
     let totalEmissions = [];
+
     activities.forEach((activity) => {
       totalEmissions.push(activity.emissions.CO2);
     });
+
     totalEmissions = eval(totalEmissions.join('+'));
     let emissionReduced = 0;
     let previousEmission = 0;
+
     activities.forEach((activity) => {
       if (previousEmission) {
         emissionReduced += activity.emissions.CO2 - previousEmission;
       }
       previousEmission = activity.emissions.CO2;
     });
+
     return { totalEmissions: totalEmissions, emissionReduced };
   }
 }

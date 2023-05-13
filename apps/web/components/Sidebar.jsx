@@ -4,9 +4,10 @@ import {
   ListItemText,
   List,
 } from "@mui/material";
-import { BarChart, PlaylistAdd, Restore, Dashboard } from "@mui/icons-material";
 import Link from "next/link";
-export default function BarList() {
+import { BarChart, PlaylistAdd, Restore, Dashboard } from "@mui/icons-material";
+
+export default function Sidebar() {
   const data = [
     {
       label: "Dashboard",

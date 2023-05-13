@@ -4,8 +4,9 @@ import Paper from "@mui/material/Paper";
 import Radio from "@mui/material/Radio";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
+import Snack from "../components/Snackbar";
 import RadioGroup from "@mui/material/RadioGroup";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ActivitiesComponent from "../components/Activities";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -20,14 +21,6 @@ export default function Activities() {
   const [select, setSelect] = useState("date");
   const [uuidError, setUuidError] = useState(null);
   const [dateInputError, setDateInputError] = useState(null);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     // const response = await fetch('http://127.0.0.1:9080/climatix/activities');
-  //     // setServerInfo(await response.json());
-  //   };
-  //   fetchData();
-  // }, []);
 
   function retrieveActivities() {
     const uuidRegex =
@@ -68,13 +61,23 @@ export default function Activities() {
       });
   }
 
+  useEffect(() => {
+    fetch("http://127.0.0.1:9080/climatix/activities", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }).catch((error) => {
+      setError("Server Error");
+    });
+  });
+
   return (
     <>
-      <div className="w-full bg-white px-10  py-2  border-solid border-2 border-cyan-700 p-9 rounded-t-md">
-        <form className="flex flex-row items-center border-black border-1 border-solid">
-          <div className="flex h-10 py-2 mb-2">
+      {error && <Snack error={error} />}
+      <div className="w-full bg-white px-10  py-4 flex align-center border-solid border-2 border-cyan-700 p-9 rounded-t-md md:flex-col">
+        <form className="flex flex-row items-center border-black border-1 border-solid ">
+          <div className="flex sm:flex-col md:flex-row lg:flex-row xl:flex-row ">
             <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
+              aria-labelledby="demo-radio-buttons-group-label "
               defaultValue="date"
               name="radio-buttons-group"
               className="flex flex-row "
@@ -127,22 +130,20 @@ export default function Activities() {
                 />
               </LocalizationProvider>
             )}
+            <Button onClick={retrieveActivities} color="primary">
+              Retrieve
+            </Button>
           </div>
-          <Button onClick={retrieveActivities} color="primary">
-            Retrieve
-          </Button>
         </form>
       </div>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={4} lg={12}>
+        <Grid item xs={12} sm={12} md={12} lg={12}>
           <Paper className="  flex flex-col items-center py-4">
             <h3 className="mb-4">
               Retrieve your historical activities by filtering by {select}
             </h3>
             {activities.length !== 0 ? (
               <ActivitiesComponent activities={activities} />
-            ) : error ? (
-              <p className="text-red-600">{error}</p>
             ) : (
               <p>No activities found</p>
             )}
