@@ -65,7 +65,7 @@ export default function Activities() {
   }
 
   useEffect(() => {
-    fetch(`https://full-stack-exercise.onrender.com/climatix/activities`, {
+    fetch(`https://full-stack-exercise.onrender.com/climatix/info`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     }).catch((error) => {
