@@ -32,7 +32,7 @@ export default function Web() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://backendUrl:9080/climatix/categories"
+          "http://process.env.BACKEND_URL:9080/climatix/categories"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch activity options");
@@ -86,7 +86,7 @@ export default function Web() {
       typeInput &&
       !typeInputError
     ) {
-      fetch("http://backendUrl:9080/climatix/activities", {
+      fetch("http://process.env.BACKEND_URL:9080/climatix/activities", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

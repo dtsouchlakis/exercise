@@ -47,10 +47,13 @@ export default function Activities() {
       input = uuidInput.current.value;
     }
 
-    fetch(`http://backendUrl:9080/climatix/activities/?${location}=${input}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    })
+    fetch(
+      `http://process.env.BACKEND_URL:9080/climatix/activities/?${location}=${input}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         setActivities(data);
@@ -62,7 +65,7 @@ export default function Activities() {
   }
 
   useEffect(() => {
-    fetch("http://backendUrl:9080/climatix/activities", {
+    fetch("http://process.env.BACKEND_URL:9080/climatix/activities", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     }).catch((error) => {
