@@ -32,7 +32,7 @@ export default function Chart() {
     );
   }
   function fetchData() {
-    fetch(`https://full-stack-exercise.onrender.com//climatix/data`, {
+    fetch(`https://full-stack-exercise.onrender.com/climatix/data`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })
