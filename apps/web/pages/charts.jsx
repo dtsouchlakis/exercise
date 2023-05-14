@@ -32,7 +32,7 @@ export default function Chart() {
     );
   }
   function fetchData() {
-    fetch(`http://process.env.BACKEND_URL:9080/climatix/data`, {
+    fetch(`https://${process.env.BACKEND_URL}:9080/climatix/data`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })

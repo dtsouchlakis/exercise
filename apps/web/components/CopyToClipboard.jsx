@@ -15,7 +15,7 @@ const CopyToClipboardButton = ({ input }) => {
       <IconButton
         onClick={handleClick}
         color="primary"
-        aria-aria-label="copy uuid to clipboard"
+        aria-label="copy uuid to clipboard"
       >
         <ContentCopyIcon />
       </IconButton>

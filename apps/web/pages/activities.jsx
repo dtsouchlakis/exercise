@@ -48,7 +48,7 @@ export default function Activities() {
     }
 
     fetch(
-      `http://process.env.BACKEND_URL:9080/climatix/activities/?${location}=${input}`,
+      `https://${process.env.BACKEND_URL}:9080/climatix/activities/?${location}=${input}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -65,7 +65,7 @@ export default function Activities() {
   }
 
   useEffect(() => {
-    fetch("http://process.env.BACKEND_URL:9080/climatix/activities", {
+    fetch(`https://${process.env.BACKEND_URL}:9080/climatix/activities`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     }).catch((error) => {
