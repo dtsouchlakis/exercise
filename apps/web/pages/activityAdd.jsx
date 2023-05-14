@@ -32,7 +32,7 @@ export default function Web() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://full-stack-exercise.onrender.com/climatix/categories"
+          "http://127.0.0.1:9080/climatix/categories"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch activity options");
@@ -70,7 +70,7 @@ export default function Web() {
       setAmountInputError(false);
     }
     if (!typeInput) {
-      setTypeInputError("Please select an activity type");
+      setTypeInputError("Please select a type");
     } else {
       setTypeInputError(false);
     }
@@ -86,7 +86,7 @@ export default function Web() {
       typeInput &&
       !typeInputError
     ) {
-      fetch(`https://full-stack-exercise.onrender.com/climatix/activities`, {
+      fetch(`http://127.0.0.1:9080/climatix/activities`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -113,79 +113,77 @@ export default function Web() {
       {error && <Snack error={error} />}
       <Grid container spacing={3}>
         <Grid item xs={9} sm={7} md={4} lg={3}>
-          <Paper className="flex flex-col  items-center rounded-md ">
-            <form className="flex flex-col border-solid border-2 border-cyan-700 p-9 rounded-md px-12 max-w-sm">
-              <h2>Add Activity</h2>
+          <Paper className="flex flex-col border-solid border-2 border-cyan-700 p-9 rounded-md px-12">
+            <h2>Add Activity</h2>
 
-              <TextField
-                id="amount"
-                label="Amount"
-                variant="outlined"
-                required
-                aria-label="activity amount input"
-                className="mt-5"
-                inputRef={amountInput}
-                type="number"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">TJ</InputAdornment>
-                  ),
-                }}
-                onChange={(e) => {
-                  setAmountInputError(false);
-                }}
-                error={Boolean(amountInputError)}
-                helperText={amountInputError ? amountInputError : " "}
-              />
+            <TextField
+              id="amount"
+              label="Amount"
+              variant="outlined"
+              required
+              aria-label="activity amount input"
+              className="mt-5"
+              inputRef={amountInput}
+              type="number"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">TJ</InputAdornment>
+                ),
+              }}
+              onChange={(e) => {
+                setAmountInputError(false);
+              }}
+              error={Boolean(amountInputError)}
+              helperText={amountInputError ? amountInputError : " "}
+            />
 
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Select date for activity"
-                  aria-label="activity date calendar selector"
-                  onChange={(newValue) => {
-                    setDateInput(newValue);
-                    setDateInputError(false);
-                  }}
-                  disableFuture
-                  defaultValue={dayjs()}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      error={Boolean(dateInputError)}
-                      helperText={dateInputError ? dateInputError : " "}
-                    />
-                  )}
-                />
-              </LocalizationProvider>
-              <Autocomplete
-                id="activityType"
-                disablePortal
-                options={activityOptions}
-                value={typeInput}
-                className="mt-5"
-                aria-label="activity type input"
-                onInputChange={(e, newInputValue) => {
-                  setTypeInput(newInputValue);
-                  setTypeInputError(false);
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Select date for activity"
+                aria-label="activity date calendar selector"
+                onChange={(newValue) => {
+                  setDateInput(newValue);
+                  setDateInputError(false);
                 }}
+                disableFuture
+                defaultValue={dayjs()}
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Activity type"
-                    error={Boolean(typeInputError)}
-                    helperText={typeInputError ? typeInputError : " "}
+                    error={Boolean(dateInputError)}
+                    helperText={dateInputError ? dateInputError : " "}
                   />
                 )}
               />
-              <Button
-                variant="outlined"
-                onClick={submitActivity}
-                className="mt-5"
-                aria-label="submit new activity"
-              >
-                Submit
-              </Button>
-            </form>
+            </LocalizationProvider>
+            <Autocomplete
+              id="activityType"
+              disablePortal
+              options={activityOptions}
+              value={typeInput}
+              className="mt-5"
+              aria-label="activity type input"
+              onInputChange={(e, newInputValue) => {
+                setTypeInput(newInputValue);
+                setTypeInputError(false);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Activity type"
+                  error={Boolean(typeInputError)}
+                  helperText={typeInputError ? typeInputError : " "}
+                />
+              )}
+            />
+            <Button
+              variant="outlined"
+              onClick={submitActivity}
+              className="mt-5"
+              aria-label="submit new activity"
+            >
+              Submit
+            </Button>
           </Paper>
         </Grid>
         <Grid item xs={9}>

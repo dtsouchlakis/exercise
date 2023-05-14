@@ -2,7 +2,7 @@ import Paper from "@mui/material/Paper";
 import Snack from "../components/Snackbar";
 import { useTheme } from "@mui/material/styles";
 import { Grid, Typography } from "@mui/material";
-import Activities from "../components/Activities";
+import ActivitiesTable from "../components/ActivitiesTable";
 import {
   LineChart,
   Line,
@@ -32,7 +32,7 @@ export default function Chart() {
     );
   }
   function fetchData() {
-    fetch(`https://full-stack-exercise.onrender.com/climatix/data`, {
+    fetch(`http://127.0.0.1:9080/climatix/data`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })
@@ -205,7 +205,7 @@ export default function Chart() {
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
           <Paper className="pt-4 mb-12">
-            <Activities activities={activities} />
+            <ActivitiesTable activities={activities} />
           </Paper>
         </Grid>
       </Grid>

@@ -1,9 +1,7 @@
-import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Snack from "../components/Snackbar";
 import { Grid, Typography } from "@mui/material";
 import { useState, useEffect, useMemo } from "react";
-import LinearProgress from "@mui/material/LinearProgress";
 import EmissionDashboard from "../components/EmissionsDashboard";
 
 export default function Chart() {
@@ -12,7 +10,7 @@ export default function Chart() {
 
   useEffect(() => {
     function loadSavings() {
-      fetch(`https://full-stack-exercise.onrender.com/climatix/savings`, {
+      fetch(`http://127.0.0.1:9080/climatix/savings`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
