@@ -4,7 +4,7 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"],
-      "env": ["BACKEND-URL"]
+      "env": ["backend_url"]
     },
     "lint": {
       "outputs": []
@@ -17,7 +17,7 @@
         "turbo run start --workspace web",
         "turbo run start --workspace api"
       ],
-      "env": ["BACKEND-URL"]
+      "env": ["backend_url"]
     }
   }
 }

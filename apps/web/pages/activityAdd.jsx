@@ -86,7 +86,7 @@ export default function Web() {
       typeInput &&
       !typeInputError
     ) {
-      fetch("https://${process.env.BACKEND_URL}:9080/climatix/activities", {
+      fetch(`https://${process.env.backend_url}:9080/climatix/activities`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

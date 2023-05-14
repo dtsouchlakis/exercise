@@ -12,7 +12,7 @@ export default function Chart() {
 
   useEffect(() => {
     function loadSavings() {
-      fetch("https://${process.env.BACKEND_URL}:9080/climatix/savings", {
+      fetch(`https://${process.env.backend_url}:9080/climatix/savings`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
