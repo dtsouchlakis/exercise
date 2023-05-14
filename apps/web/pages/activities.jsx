@@ -48,7 +48,7 @@ export default function Activities() {
     }
 
     fetch(
-      `https://${process.env.backend_url}:9080/climatix/activities/?${location}=${input}`,
+      `https://full-stack-exercise.onrender.com:9080/climatix/activities/?${location}=${input}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -65,7 +65,7 @@ export default function Activities() {
   }
 
   useEffect(() => {
-    fetch(`https://${process.env.backend_url}:9080/climatix/activities`, {
+    fetch(`https://full-stack-exercise.onrender.com:9080/climatix/activities`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     }).catch((error) => {

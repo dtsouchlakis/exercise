@@ -32,7 +32,7 @@ export default function Web() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://${process.env.BACKEND_URL}:9080/climatix/categories"
+          "https://full-stack-exercise.onrender.com:9080/climatix/categories"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch activity options");
