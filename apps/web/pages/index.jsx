@@ -12,7 +12,7 @@ export default function Chart() {
 
   useEffect(() => {
     function loadSavings() {
-      fetch("http://127.0.0.1:9080/climatix/savings", {
+      fetch("http://backendUrl:9080/climatix/savings", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
