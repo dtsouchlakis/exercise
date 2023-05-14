@@ -71,6 +71,7 @@ export default function EmissionDashboard({ savings, progress, trees }) {
               variant="h6"
               color="primary"
               className="mb-4"
+              aria-label="Emission reduction impact in kg"
             >
               Impact
             </Typography>
@@ -79,8 +80,13 @@ export default function EmissionDashboard({ savings, progress, trees }) {
               You have reduced your emissions by{" "}
               {Math.abs(savings.emissionReduced).toLocaleString()}Kg
             </p>
-            <LinearProgressWithLabel value={progress} />
-            <p>{100 - progress}% left to net zero</p>
+            <LinearProgressWithLabel
+              value={progress}
+              aria-label="Emission reduction percentage"
+            />
+            <p aria-label="Emission reduction percentage to net zero">
+              {100 - progress}% left to net zero
+            </p>
           </Paper>
         </Grid>
 
@@ -106,6 +112,7 @@ export default function EmissionDashboard({ savings, progress, trees }) {
               variant="h6"
               color="primary"
               className="mb-4"
+              aria-label="Emission reduction impact in tonnes"
             >
               CO2 reduction
             </Typography>

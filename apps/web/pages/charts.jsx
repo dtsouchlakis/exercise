@@ -2,6 +2,7 @@ import Paper from "@mui/material/Paper";
 import Snack from "../components/Snackbar";
 import { useTheme } from "@mui/material/styles";
 import { Grid, Typography } from "@mui/material";
+import Activities from "../components/Activities";
 import {
   LineChart,
   Line,
@@ -11,7 +12,6 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import Activities from "../components/Activities";
 import { useState, useEffect, useMemo } from "react";
 
 export default function Chart() {
@@ -82,6 +82,8 @@ export default function Chart() {
     }
   }
 
+  //Prepare the data for the chart. The chart has 2 Y-axis because of the difference in order of magnitute of CO2 in
+  //comparison to the other gasses.
   const chartData = useMemo(() => {
     return activities.map((element) => ({
       name: element.activityDate,
@@ -109,6 +111,7 @@ export default function Chart() {
               variant="h6"
               color="primary"
               gutterBottom
+              aria-label="Yearly emissions chart"
             >
               Emissions
             </Typography>

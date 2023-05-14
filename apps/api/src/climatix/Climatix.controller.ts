@@ -20,6 +20,7 @@ export class ClimatixController {
   private readonly logger = new Logger(ClimatixController.name);
   constructor(private readonly climatixService: ClimatixService) {}
 
+  // Endpoint to check if the server is alive
   @Get('/info')
   async getInfo(@Req() req: any): Promise<{ message: string }> {
     return {
@@ -27,21 +28,33 @@ export class ClimatixController {
     };
   }
 
+  // Endpoint to get all activity data
   @Get('/data')
   async getAllData(@Req() req: any): Promise<{
     activities: ActivityDataDto[];
   }> {
-    const data = await this.climatixService.getAllData();
-    return data;
+    try {
+      const data = await this.climatixService.getAllData();
+      return data;
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: 'Internal Server Error',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
+  // Endpoint to add new activity data
   @Post('/activities')
   async addActivity(
     @Req() req: any,
     @Body() data: ActivityDataDto,
   ): Promise<ActivityDataDto> {
     try {
-      // Sanitize user input
+      // Sanitize user input. We could probably sanitize the data further before inserting into the DB
       const sanitizedData = {
         ...data,
         amount: parseInt(data.amount.toString()),
@@ -89,7 +102,9 @@ export class ClimatixController {
         throw new BadRequestException('No query parameters specified');
       }
     } catch (error) {
-      // Handle errors and return them to the frontend
+      // Handle errors and return them to the frontend. Currently the frontend is not actually using these errors, but is
+      //just throwing a generalized server error. A possible improvement would have been to consider different potential errors
+      //and return them along with specific error codes to the frontend.
       if (error instanceof HttpException) {
         throw error;
       } else {
@@ -104,19 +119,41 @@ export class ClimatixController {
     }
   }
 
+  // Endpoint to get emissions savings data
   @Get('/savings')
   async getSavings(
     @Req() req: any,
   ): Promise<{ totalEmissions: any; emissionReduced: number }> {
-    const savings = await this.climatixService.getSavings();
+    try {
+      const savings = await this.climatixService.getSavings();
 
-    return savings;
+      return savings;
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: 'Internal Server Error',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
+  // Endpoint to get all activity categories to populate the options in the frontend
   @Get('/categories')
   async getCategories(@Req() req: any): Promise<string[]> {
-    const categories = await this.climatixService.getAllActivityCategories();
+    try {
+      const categories = await this.climatixService.getAllActivityCategories();
 
-    return categories;
+      return categories;
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: 'Internal Server Error',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

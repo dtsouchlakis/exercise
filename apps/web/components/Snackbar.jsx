@@ -11,6 +11,7 @@ export default function Snack({ error }) {
         className: "bg-red-100 border-red-400 text-red-700",
       }}
       autoHideDuration={6000}
+      aria-label={message}
     />
   );
 }

@@ -26,16 +26,18 @@ export default function Chart() {
         });
     }
     loadSavings();
-  });
+  }, []);
 
+  //Calculate equivalent of trees plant from the emission reductions. Assumption of 1 tonne of CO2 equivalent per 40 trees. First convert kg to tonnes then divide by number of trees per tonne
   const trees = useMemo(() => {
     if (!savings?.emissionReduced) {
       return 0;
     } else {
-      return Math.floor(Math.abs(savings.emissionReduced) / 40);
+      return Math.floor(Math.abs(savings.emissionReduced) / 1000 / 40);
     }
   }, [savings]);
 
+  //A potential improvement here would have been to receive a positive number from the backend instead of doing abs for every calculation
   const progress = useMemo(() => {
     if (!savings?.emissionReduced || !savings?.totalEmissions) {
       return 0;
@@ -58,7 +60,12 @@ export default function Chart() {
               flexDirection: "column",
             }}
           >
-            <Typography component="h4" variant="h6" color="primary">
+            <Typography
+              component="h4"
+              variant="h6"
+              color="primary"
+              aria-label="Emissions Dashboard intro"
+            >
               Welcome to the Emissions Dashboard!
             </Typography>
             <p>

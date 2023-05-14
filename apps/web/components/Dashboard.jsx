@@ -15,6 +15,10 @@ import Typography from "@mui/material/Typography";
 import { IconButton, Divider } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
+//These are the styles for the drawer and appbar. These are basically styles that work with
+//MUI components, and they create variable properties for the components that can be changed
+//depending on state. Potentially it would have been good to use styled components for other
+//components in the code but this specific implementation was directly from the documentation.
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -80,13 +84,14 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 const mdTheme = createTheme();
-
+//Styles end here
 export default function Dashboard({ children }) {
   const [open, setOpen] = useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
+  //StyledEngineProvider was necessary to overcome style conflicts between tailwind and mui
+  //This allows the mui styles not to override custom styles
   return (
     <StyledEngineProvider injectFirst>
       <div className="flex">

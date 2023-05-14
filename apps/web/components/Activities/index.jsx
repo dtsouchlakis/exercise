@@ -12,7 +12,7 @@ export default function Activities({ activities }) {
       <Table
         sx={{ minWidth: 650 }}
         size="small"
-        aria-label="table of activities"
+        aria-label="table of retrieved activities"
       >
         <TableHead>
           <TableRow>

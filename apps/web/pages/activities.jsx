@@ -87,11 +87,13 @@ export default function Activities() {
                 value="uuid"
                 control={<Radio size="small" />}
                 label="By uuid"
+                aria-label="Radio button to search activities by uuid"
               />
               <FormControlLabel
                 value="date"
                 control={<Radio size="small" />}
                 label="By date"
+                aria-label="Radio button to search activities by date"
               />
             </RadioGroup>
             {select === "uuid" ? (
@@ -100,6 +102,7 @@ export default function Activities() {
                 label="Activity uuid"
                 size="small"
                 variant="outlined"
+                aria-label="field to select activity uuid to filter by"
                 inputRef={uuidInput}
                 error={Boolean(uuidError)}
                 helperText={uuidError ? uuidError : " "}
@@ -109,6 +112,7 @@ export default function Activities() {
                 <DatePicker
                   disableFuture
                   label="Date filter"
+                  aria-label="field to select activity uuid to filter by"
                   inputFormat="YYYY-MM-DD"
                   defaultValue={dateInput}
                   sx={{

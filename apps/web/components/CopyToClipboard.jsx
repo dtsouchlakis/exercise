@@ -12,7 +12,11 @@ const CopyToClipboardButton = ({ input }) => {
 
   return (
     <>
-      <IconButton onClick={handleClick} color="primary">
+      <IconButton
+        onClick={handleClick}
+        color="primary"
+        aria-aria-label="copy uuid to clipboard"
+      >
         <ContentCopyIcon />
       </IconButton>
       <Snackbar

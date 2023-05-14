@@ -35,7 +35,9 @@ export class ClimatixService implements OnModuleInit {
         CH4: 5,
       },
     });
+    // There are more but for the purpose of assignment, these suffice
 
+    // Generate random activity data
     const propagateActivities = () => {
       for (let i = 0; i < CURRENT_ACTIVITIES; i++) {
         const uuid = Math.floor(Math.random() * 1000000).toString();
@@ -58,7 +60,6 @@ export class ClimatixService implements OnModuleInit {
       }
     };
     propagateActivities();
-    // There are more but for the purpose of assignment, these suffice
   }
 
   async setEmissionFactor(emissionFactor: EmissionFactorDto) {
@@ -78,6 +79,7 @@ export class ClimatixService implements OnModuleInit {
     return activityData;
   }
 
+  // Get all activities with a given date
   async getAllActivitybyDate(date: string): Promise<ActivityDataDto[]> {
     const matchingActivities = Object.values(this.activityDb).filter(
       (activity) => activity.activityDate === date,
@@ -85,12 +87,15 @@ export class ClimatixService implements OnModuleInit {
     return matchingActivities;
   }
 
+  // Get all activities with a given UUID
   async getAllActivitybyUUID(uuid: string): Promise<ActivityDataDto[]> {
     const matchingActivities = Object.values(this.activityDb).filter(
       (activity) => activity.uuid == uuid,
     );
     return matchingActivities;
   }
+
+  // Get all activity categories
   async getAllActivityCategories(): Promise<string[]> {
     const categories = [];
     Object.values(this.emissionFactorDb).forEach((category) => {
@@ -99,6 +104,7 @@ export class ClimatixService implements OnModuleInit {
     return Array.from(categories);
   }
 
+  // Get all activities
   async getAllData(): Promise<{
     activities: ActivityDataDto[];
     emissionFactors: EmissionFactorDto[];
@@ -130,7 +136,10 @@ export class ClimatixService implements OnModuleInit {
     return activityData;
   }
 
-  //Get the users savings from their reduced emissions
+  //Get the users emission savings and total emissions. The calculation method could probably be improved, but this is a simple way to calculate
+
+  // This code calculates CO2 emission reduction for a list of activities by subtracting previous emissions from current emissions in each loop and adding the result to the emissionReduced variable. Finally, it returns the total emissions and calculated emission reduction.
+
   async getSavings(): Promise<{
     totalEmissions: any;
     emissionReduced: number;

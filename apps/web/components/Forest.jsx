@@ -4,7 +4,10 @@ import ForestIcon from "@mui/icons-material/Forest";
 export default function Forest() {
   return (
     <>
-      <div className="flex flex-col w-40 border-b-2 border-red-700">
+      <div
+        className="flex flex-col w-40 border-b-2 border-red-700"
+        aria-label="forest animation"
+      >
         <div className="flex flex-row justify-center -mb-8 text-lime-700 ">
           <Fade in={true} appeared={true} timeout={1000}>
             <ForestIcon fontSize="large" />

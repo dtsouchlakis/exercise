@@ -13,7 +13,7 @@ export default function Web() {
   //m3 of gas instead of TJ for ease of use. This could be also done in the backend,
   //but I wanted to keep it simple for now
 
-  //Converting MJ/liter pt MJ/m3 to TJ/liter and TJ/m3.
+  //Converting MJ/liter or MJ/m3 to TJ/liter and TJ/m3.
   const gasolineEnergyContentPerLiter = 34.2 / 1_000_000; //Not in use
   const lngEnergyContentPerLiter = 39.8 / 1_000_000; //Not in use
   const [dateInput, setDateInput] = useState(dayjs());
@@ -27,6 +27,7 @@ export default function Web() {
   const [activityOptions, setActivityOptions] = useState([]);
   const [error, setError] = useState(null);
 
+  //Fetch the categories to populate the activity type dropdown
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -121,6 +122,7 @@ export default function Web() {
                 label="Amount"
                 variant="outlined"
                 required
+                aria-label="activity amount input"
                 className="mt-5"
                 inputRef={amountInput}
                 type="number"
@@ -139,6 +141,7 @@ export default function Web() {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="Select date for activity"
+                  aria-label="activity date calendar selector"
                   onChange={(newValue) => {
                     setDateInput(newValue);
                     setDateInputError(false);
@@ -160,6 +163,7 @@ export default function Web() {
                 options={activityOptions}
                 value={typeInput}
                 className="mt-5"
+                aria-label="activity type input"
                 onInputChange={(e, newInputValue) => {
                   setTypeInput(newInputValue);
                   setTypeInputError(false);
@@ -177,6 +181,7 @@ export default function Web() {
                 variant="outlined"
                 onClick={submitActivity}
                 className="mt-5"
+                aria-label="submit new activity"
               >
                 Submit
               </Button>
@@ -185,7 +190,10 @@ export default function Web() {
         </Grid>
         <Grid item xs={9}>
           <Paper className="px-10 pt-10 pb-20 rounded-md">
-            <div className=" flex flex-col h-full">
+            <div
+              className=" flex flex-col h-full"
+              aria-label="use instructions for adding activities"
+            >
               <div className="flex flex-col lg:text-md md:text-base sm:text-xs">
                 <h3 className="font-semibold mb-5 ">
                   Add your activity on the left to calculate and save your
