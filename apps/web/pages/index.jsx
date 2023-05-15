@@ -10,7 +10,7 @@ export default function Chart() {
 
   useEffect(() => {
     function loadSavings() {
-      fetch(`http://127.0.0.1:9080/climatix/savings`, {
+      fetch(`https://full-stack-exercise.onrender.com/climatix/savings`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
