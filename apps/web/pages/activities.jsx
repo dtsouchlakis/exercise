@@ -156,7 +156,7 @@ export default function Activities() {
               Retrieve your historical activities by filtering by {select}
             </h3>
             {activities.length !== 0 ? (
-              <ActivitiesTable activities={activities} />
+              <ActivitiesComp activities={activities} />
             ) : (
               <p>No activities found</p>
             )}
