@@ -6,7 +6,7 @@ import TableHead from "@mui/material/TableHead";
 import CopyToClipboard from "../CopyToClipboard";
 import TableContainer from "@mui/material/TableContainer";
 
-export default function Activities({ activities }) {
+export default function ActivitiesComp({ activities }) {
   return (
     <TableContainer className="px-5">
       <Table
