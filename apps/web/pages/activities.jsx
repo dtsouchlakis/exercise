@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Snack from "../components/Snackbar";
 import RadioGroup from "@mui/material/RadioGroup";
 import { useState, useRef, useEffect } from "react";
-import ActivitiesTable from "../components/ActivitiesTable";
+import ActivitiesTable from "../components/Activities/index";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
