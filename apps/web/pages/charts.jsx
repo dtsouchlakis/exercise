@@ -2,7 +2,7 @@ import Paper from "@mui/material/Paper";
 import Snack from "../components/Snackbar";
 import { useTheme } from "@mui/material/styles";
 import { Grid, Typography } from "@mui/material";
-import ActivitiesTable from "../components/ActivitiesTable";
+import ActivitiesTable from "../components/Activities";
 import {
   LineChart,
   Line,
