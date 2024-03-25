@@ -1,5 +1,5 @@
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
-const BASE_URL = `http://${process.env.NEXT_PUBLIC_BAPI_URL}`;
+const BASE_URL = `https://${process.env.NEXT_PUBLIC_BAPI_URL}`;
 
 export async function fetchCoordinates(cityName: string): Promise<any> {
   // We can use the Geocoding API to get the latitude and longitude or have coordinates
