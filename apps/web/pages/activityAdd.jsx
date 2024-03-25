@@ -7,7 +7,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { TextField, Button, Autocomplete } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers/";
-
+import { fetchCategories } from "../services/service";
+import { sendActivity } from "../services/service";
 export default function Web() {
   //We could use the energy content to allow the user to input liters of gasoline or
   //m3 of gas instead of TJ for ease of use. This could be also done in the backend,
@@ -30,22 +31,13 @@ export default function Web() {
   //Fetch the categories to populate the activity type dropdown
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://full-stack-exercise.onrender.com/climatix/categories"
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch activity options");
-        }
-        const data = await response.json();
-        setActivityOptions(data);
-        setError(null);
-      } catch (error) {
-        console.error(error);
-        setError("Server Error");
-      }
+      const data = await fetchCategories();
+      setActivityOptions(data);
     };
-    fetchData();
+    fetchData().catch((err) => {
+      setError("Unable to connect to server");
+      console.log(err);
+    });
   }, []);
 
   function flashSuccess() {
@@ -64,7 +56,7 @@ export default function Web() {
     } else {
       setDateInputError(false);
     }
-    if (!amountInput.current.value) {
+    if (!amountInput.current.value || amountInput.current.value < 0) {
       setAmountInputError("Amount is invalid");
     } else {
       setAmountInputError(false);
@@ -76,7 +68,7 @@ export default function Web() {
     }
   }
 
-  function submitActivity() {
+  async function submitActivity() {
     validateInputs();
     if (
       !dateInputError &&
@@ -86,25 +78,23 @@ export default function Web() {
       typeInput &&
       !typeInputError
     ) {
-      fetch(`https://full-stack-exercise.onrender.com/climatix/activities`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          amount: parseInt(amountInput.current.value),
-          activityDate: dateInput.format("YYYY-MM-DD").toString(),
-          activityType: typeInput,
-          emissions: { CO2: 0, CH4: 0, N2O: 0 },
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          flashSuccess();
-          setLastUuid(data.uuid);
-        })
-        .catch((error) => {
-          console.error(error);
-          setError("Server Error");
-        });
+      try {
+        console.log(dateInput, amountInput.current.value, typeInput);
+        let data = await sendActivity(
+          dateInput.format("YYYY-MM-DD").toString(),
+          amountInput.current.value,
+          typeInput
+        );
+        console.log(data);
+        setLastUuid(data.uuid);
+
+        console.log(data);
+        setLastUuid(data.uuid);
+        flashSuccess();
+      } catch (err) {
+        console.log(err);
+        setError("Unable to connect to server");
+      }
     }
   }
 

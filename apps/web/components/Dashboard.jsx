@@ -116,11 +116,7 @@ export default function Dashboard({ children }) {
               <MenuIcon />
             </IconButton>
             <Link href="/" passHref className="flex items-center">
-              <img
-                src="https://www.hanaloop.com/images/logo.png"
-                className="h-6 mr-2"
-                alt="logo"
-              />
+              <img src="/logo.png" className=" h-16 -ml-2" alt="logo" />
               <Typography
                 component="div"
                 style={{
@@ -131,7 +127,7 @@ export default function Dashboard({ children }) {
                   fontSize: "1.125rem",
                 }}
               >
-                HanaLoop
+                Climatix
               </Typography>
             </Link>
           </Toolbar>
@@ -148,7 +144,7 @@ export default function Dashboard({ children }) {
         </Drawer>
         <Container
           disableGutters
-          maxWidth="xl"
+          maxWidth="2xl"
           sx={{
             pt: 12,
             px: 4,

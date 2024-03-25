@@ -1,5 +1,6 @@
 {
   "$schema": "https://turborepo.org/schema.json",
+  "globalDotEnv": [".env"],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
@@ -10,7 +11,9 @@
       "outputs": []
     },
     "dev": {
-      "cache": false
+      "cache": false,
+      "dotEnv": [".env"],
+      "env": ["NEXT_PUBLIC_API_KEY"]
     },
     "start": {
       "parallel": [

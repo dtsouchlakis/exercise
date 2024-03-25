@@ -7,12 +7,13 @@ import Button from "@mui/material/Button";
 import Snack from "../components/Snackbar";
 import RadioGroup from "@mui/material/RadioGroup";
 import { useState, useRef, useEffect } from "react";
-import ActivitiesComp from "../components/Activities/index";
+import ActivitiesTable from "../components/ActivitiesTable";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-
+import { fetchActivityHistory } from "../services/service";
+import { checkServer } from "../services/service";
 export default function Activities() {
   const [activities, setActivities] = useState([]);
   const [dateInput, setDateInput] = useState(dayjs());
@@ -22,11 +23,11 @@ export default function Activities() {
   const [uuidError, setUuidError] = useState(null);
   const [dateInputError, setDateInputError] = useState(null);
 
-  function retrieveActivities() {
+  async function retrieveActivities() {
     const uuidRegex =
       /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
-    let location;
+    let filter;
     let input;
     if (select === "date") {
       if (!dateInput) {
@@ -35,7 +36,7 @@ export default function Activities() {
       } else {
         setDateInputError(null);
       }
-      location = "date";
+      filter = "date";
       input = dateInput.format("YYYY-MM-DD").toString();
     } else if (select === "uuid") {
       if (
@@ -47,35 +48,29 @@ export default function Activities() {
       } else {
         setUuidError(null);
       }
-      location = "uuid";
+      filter = "uuid";
       input = uuidInput.current.value;
     }
-
-    fetch(
-      `https://full-stack-exercise.onrender.com/climatix/activities/?${location}=${input}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setActivities(data);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError("Server Error");
-      });
+    try {
+      const res = await fetchActivityHistory(filter, input);
+      setActivities(res);
+    } catch (err) {
+      setError("Unable to connect to server");
+    }
   }
 
   useEffect(() => {
-    fetch(`https://full-stack-exercise.onrender.com/climatix/info`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    }).catch((error) => {
-      setError("Server Error");
+    const fetchData = async () => {
+      try {
+        await checkServer();
+      } catch (err) {
+        setError("Unable to connect to server");
+      }
+    };
+    fetchData().catch((err) => {
+      setError("Unable to connect to server");
     });
-  });
+  }, []);
 
   return (
     <>
@@ -159,7 +154,7 @@ export default function Activities() {
               Retrieve your historical activities by filtering by {select}
             </h3>
             {activities.length !== 0 ? (
-              <ActivitiesComp activities={activities} />
+              <ActivitiesTable activities={activities} />
             ) : (
               <p>No activities found</p>
             )}

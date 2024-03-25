@@ -2,7 +2,7 @@ import Paper from "@mui/material/Paper";
 import Snack from "../components/Snackbar";
 import { useTheme } from "@mui/material/styles";
 import { Grid, Typography } from "@mui/material";
-import ActivitiesTable from "../components/Activities";
+import ActivitiesTable from "../components/ActivitiesTable";
 import {
   LineChart,
   Line,
@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from "recharts";
 import { useState, useEffect, useMemo } from "react";
-
+import { fetchChartData } from "../services/service";
 export default function Chart() {
   const [activities, setActivities] = useState([]);
   const [labelLeft, setLabelLeft] = useState("");
@@ -22,6 +22,14 @@ export default function Chart() {
   const theme = useTheme();
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetchChartData();
+        setActivities(res);
+      } catch (err) {
+        setError("Unable to connect to server");
+      }
+    };
     fetchData();
   }, []);
 
@@ -30,22 +38,6 @@ export default function Chart() {
     activities.sort(
       (a, b) => Date.parse(a.activityDate) - Date.parse(b.activityDate)
     );
-  }
-  function fetchData() {
-    fetch(`https://full-stack-exercise.onrender.com/climatix/data`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        let newActivities = [...data.activities];
-        sortActivitiesByDate(newActivities);
-        setActivities(newActivities);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError("Error fetching data");
-      });
   }
 
   // Formats the given value and updates the left y-axis label state variable accordingly.

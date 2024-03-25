@@ -3,26 +3,20 @@ import Snack from "../components/Snackbar";
 import { Grid, Typography } from "@mui/material";
 import { useState, useEffect, useMemo } from "react";
 import EmissionDashboard from "../components/EmissionsDashboard";
-
+import { fetchSavings } from "../services/service";
 export default function Chart() {
   const [savings, setSavings] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    function loadSavings() {
-      fetch(`https://full-stack-exercise.onrender.com/climatix/savings`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setSavings(data);
-        })
-        .catch((error) => {
-          console.error(error);
-          setError("Server Error");
-        });
-    }
+    const loadSavings = async () => {
+      try {
+        const res = await fetchSavings();
+        setSavings(res);
+      } catch (err) {
+        setError("Unable to connect to server");
+      }
+    };
     loadSavings();
   }, []);
 

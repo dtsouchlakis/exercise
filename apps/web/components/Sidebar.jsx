@@ -5,7 +5,13 @@ import {
   List,
 } from "@mui/material";
 import Link from "next/link";
-import { BarChart, PlaylistAdd, Restore, Dashboard } from "@mui/icons-material";
+import {
+  BarChart,
+  PlaylistAdd,
+  Restore,
+  Dashboard,
+  Map,
+} from "@mui/icons-material";
 
 export default function Sidebar() {
   const data = [
@@ -28,6 +34,11 @@ export default function Sidebar() {
       label: "Reports",
       icon: <BarChart />,
       to: "/charts",
+    },
+    {
+      label: "Maps",
+      icon: <Map />,
+      to: "/maps",
     },
   ];
   const listItems = data.map((item, index) => (

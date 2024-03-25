@@ -137,9 +137,7 @@ export class ClimatixService implements OnModuleInit {
   }
 
   //Get the users emission savings and total emissions. The calculation method could probably be improved, but this is a simple way to calculate
-
   // This code calculates CO2 emission reduction for a list of activities by subtracting previous emissions from current emissions in each loop and adding the result to the emissionReduced variable. Finally, it returns the total emissions and calculated emission reduction.
-
   async getSavings(): Promise<{
     totalEmissions: any;
     emissionReduced: number;

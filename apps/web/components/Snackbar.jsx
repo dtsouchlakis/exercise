@@ -3,7 +3,7 @@ import Snackbar from "@mui/material/Snackbar";
 export default function Snack({ error }) {
   return (
     <Snackbar
-      open={error}
+      open={error !== null}
       message={error}
       sx={{ opacity: 0.8 }}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}

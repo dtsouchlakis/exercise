@@ -1,109 +1,44 @@
-# Full-stack code assignment
+## Fullstack Webdev assignment README
+![image](https://github.com/dtsouchlakis/assignment-fullstack-diot/assets/35729258/854a8ad3-c1ff-4d6a-9384-8c5bfe689483)
 
-Hello!
+## Short Explanation
 
-If you are seeing this, you are probably applying for a full-stack software engineer position at HanaLoop.
+This assignment involves the development of a web application called Climatix, which allows the users to keep track of their emissions and promotes sustainability. The application allows users to track their activities and calculate the corresponding carbon emissions. It also provides insights and progress towards emission reduction goals.
 
-HanaLoop's mission is to help organizations to take effective and efficient climate actions.
+## Assumptions
 
-Aligned with the mission, the assignment for the candidate is to create a simple web-app that calculates greenhouse gas emissions given activity data.
+- The emissions are calculated using the simplified estimate equation: E = A \* EF, where E is the emissions, A is the activity rate, and EF is the emission factor.
+- For the first page of the dashboard, where the user can see their progress and milestones, only CO2 is currently tracked
+- The application assumes a fixed conversion rate of 1 tonne of CO2 equivalent per 40 trees for calculating the equivalent number of trees planted.
+- Currently the user input is in TJ, but this could be improved by changing the units according to the activity type. A unit such as liters or m3 for gas would potentially be more useable
+- The calculation for the emission reduction is rather simplistic, and surely there is a better way, but depends on which periods we want to compare, i.e. yearly etc.
+- Only 2 activities currently in the db
 
-> If you are well-versed develooper, the estimated time of completion is about half-day.
-> If you are front-end developer, feel free to use (Mock Service Worker)[https://mswjs.io/] to mock server, and leave server implementation blank.
+## Some considerations
 
-## Super short crash-course on carbon accounting
+- On the first page of the dashboard, if the user does not have any activity inputs or they have rather increased their activities, they get a preset message encouraging them to log their activities. Otherwise, they get their dashboard statistics
+- The starting data for the db is semi-random, but it can happen that they are actually increasing emissions. In that case the front page wouldn't show reductions
 
-Carbon accounting is the process used to measure how much carbon dioxide equivalents an organization emits.
+## Challenges and things learned
 
-The general equation for emission estimation is:
+- Using Material UI and Tailwind together caused several issues with styles overriding each other and looking different between running in development and after building. Furthermore, Material UI is quite heavy on imports, which can potentially be an issue.
+- Using TypeScript mixed with JSX proved to be challenging when building the project, so for the frontend, I mostly changed the files to JSX.
+- Learning how Next.js and NestJS work were not big challenges, but it was very interesting to learn about monorepos and understand both the benefits of TypeScript and the NestJS framework.
+- Understanding how the API works in TypeScript and NestJS was challenging but certainly a valuable experience in understanding the benefits of TypeScript and learning NestJS.
+- Tests were something new to me, and I had the time and opportunity to implement some simple tests. However, more tests would have been a good addition to the codebase.
 
-`E = A x EF x (1-ER/100)`
+## Potential improvements
 
-Where
+- Responsiveness could have been more worked on
+- Units could have been more comprehensive and user friendly instead of using TJ
+- Errors could be more uniform and errors coming from the database could be used directly on the frontend
+- To increase safety we could have allowed only specific origin calls on the api
+- Emission reductions method should send positive number to frontend
 
-- E = emissions,
-- A = activity rate,
-- EF = emission factor, and
-- ER = overall emission reduction efficiency, %.
+## Time Spent
 
-There are many greenhouse gasses, main ones are CO2 (carbon dioxide), CH4 (methane), N2O (nitrous oxide). To unify the accounting of multiple gasses, non-CO2 gasses are converted into CO2eq (carbon dioxide equivalent) using Global Warming Potentials (GWP) coefficients.
+The estimated time spent on this assignment is approximately 48 hours.
 
-For the purpose of this assignment, we will simplify the estimate calculation as:
+## Additional run method
 
-`E = A * EF`
-
-## The assignment
-
-Your assignment is to implement an application consisting of an API server and a web UI. The application should allow users to add activity data list saved activities.
-
-Below is the specification of the features,
-
-### Features that needs to be implemented
-
-1. Activity entry: A UI form accepts as input activity information - activity type and amount. When submitted, it makes a request to the API server POST `/activities/` endpoint which calculates the emission and stores the activity along with the calculated emission in the database.
-
-2. Activity list: A UI where users can filter all activities by date (in ISO 8601 format). Internally the server's GET `/activities/` endpoint queries the activity database filters by date and returns the result back to the client.
-
-### Evaluation
-
-The code will be evaluated according the following criteria:
-
-1. Correctness - First and foremost, the application should run correctly.
-2. Readability - How easy it is to understand the code. Keep a balance between simplicity and robustness.
-3. Reliability - The code should guard against common errors/exceptions.
-4. Proper testing - Unit, Integration tests well implemented.
-
-Extra points:
-
-- Code comments explaining possible improvement. E.g.
-  // The performance of the following function can be improved by doing so and so...
-
-> Additional works not requested in the feature spec will be considered, but we understand you time is a scarce resource. But definitely do not over-engineer.
-
-### Deliverable
-
-1. The code you will be given a repository to check in the project
-2. A ASSIGNMENT-README.md file with the following:
-
-- A short explanation of the code, just as any README for a project, but simpler and shorter.
-- Assumptions - any non-trivial assumptions you have taken for any significant design/implement decisions
-- Time spent in the assignment in hours (just an estimate, no need to be exact)
-
-## The skeleton code
-
-The technology stack is [Nextjs](https://nextjs.org/) for web application and [Nestjs](https://nestjs.com/) for server application.
-
-The project code base is a monorepo based on [turborepo](https://turbo.build/).
-
-## What's inside?
-
-This turborepo uses [Yarn](https://classic.yarnpkg.com/) as a package manager. It includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org) app
-- `web`: another [Next.js](https://nextjs.org) app
-- `api`: [Nestjs](https://nestjs.com/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd assignment-fullstack
-yarn run build
-```
-
-### Develop (run api/web dev mode)
-
-To develop all apps and packages, run the following command:
-
-```
-cd assignment-fullstack
-yarn run dev
-```
+The built monorepo can be run in parallel by running npm start -parallel
