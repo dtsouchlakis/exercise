@@ -1,4 +1,5 @@
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+const BASE_URL = `http://${process.env.NEXT_PUBLIC_BAPI_URL}`;
 
 export async function fetchCoordinates(cityName: string): Promise<any> {
   // We can use the Geocoding API to get the latitude and longitude or have coordinates
@@ -21,7 +22,7 @@ export async function fetchActivityHistory(
   input: string
 ): Promise<any> {
   const response = await fetch(
-    `http://127.0.0.1:9080/climatix/activities/?${filter}=${input}`,
+    `${BASE_URL}/climatix/activities/?${filter}=${input}`,
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -31,7 +32,7 @@ export async function fetchActivityHistory(
   return data;
 }
 export async function checkServer(): Promise<any> {
-  const response = await fetch(`http://127.0.0.1:9080/climatix/info`, {
+  const response = await fetch(`${BASE_URL}/climatix/info`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -40,7 +41,7 @@ export async function checkServer(): Promise<any> {
 }
 
 export async function fetchCategories(): Promise<any> {
-  const response = await fetch("http://127.0.0.1:9080/climatix/categories");
+  const response = await fetch(`${BASE_URL}/climatix/categories`);
 
   const data = await response.json();
   return data;
@@ -51,7 +52,7 @@ export async function sendActivity(
   dateInput: string,
   typeInput: string
 ): Promise<any> {
-  const response = await fetch(`http://127.0.0.1:9080/climatix/activities`, {
+  const response = await fetch(`${BASE_URL}/climatix/activities`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -66,7 +67,7 @@ export async function sendActivity(
 }
 
 export async function fetchSavings(): Promise<any> {
-  const response = await fetch(`http://127.0.0.1:9080/climatix/savings`, {
+  const response = await fetch(`${BASE_URL}/climatix/savings`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -75,7 +76,7 @@ export async function fetchSavings(): Promise<any> {
 }
 
 export async function fetchChartData(): Promise<any> {
-  const response = await fetch(`http://127.0.0.1:9080/climatix/data`, {
+  const response = await fetch(`${BASE_URL}/climatix/data`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
