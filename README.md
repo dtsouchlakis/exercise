@@ -1,4 +1,4 @@
-## Fullstack Webdev assignment README
+## Climatix
 ![image](https://github.com/dtsouchlakis/assignment-fullstack-diot/assets/35729258/854a8ad3-c1ff-4d6a-9384-8c5bfe689483)
 
 ## Short Explanation
